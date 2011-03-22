@@ -13,9 +13,13 @@
     </div>
     <div id="header-navigation" style="float: right">
         <a href="<?php echo $this->url(
-            array('controller'=>'guestbook'),
+            array('controller'=>'Incident', 'action'=>'add'),
             'default',
-            true) ?>">Guestbook</a>
+            true) ?>">Report Incident</a>
+        <a href="<?php echo $this->url(
+            array('controller'=>'Incident'),
+            'default',
+            true) ?>">List incidents</a>
     </div>
 </div>
  
