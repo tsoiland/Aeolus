@@ -10,7 +10,8 @@ class IncidentController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // action body
+		$mapper = new Application_Model_IncidentMapper();
+        $this->view->models = $mapper->fetchAll();
     }
 
     public function addAction()
@@ -20,7 +21,9 @@ class IncidentController extends Zend_Controller_Action
 
     public function viewAction()
     {
-        // action body
+    	$id = $this->_request->getParam('id');
+        $mapper = new Application_Model_IncidentMapper();
+        $this->view->model = $mapper->find($id);
     }
 
 
