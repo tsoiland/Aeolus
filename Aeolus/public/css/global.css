@@ -14,7 +14,6 @@ margin:20px;
 
 #index {
 border:1px solid #000;
-margin:20px;
 }
 
 #index td {
@@ -22,40 +21,43 @@ margin:20px;
 	padding:14px;
 	}
 	
+#midcontainer {
+	width:80%;
+	}
+	
+	
 
-#apDiv1 {
+#header {
 	background:#43b83a;
-	width:100%;
 	height:20%;
-	position:absolute;
 	color:#f1f1f1;
+	width:100%;
 	font-size:150%;
+	font-weight:bold;
+	margin:0;
+	padding:50px;
 }
-#apDiv2 {
+#left {
 	background:#8ff187;
 	width:25%;
-	height:80%;
-	margin-top:135px;
 	float:left;
+	height:100%;
 	position:absolute;
 }
-#apDiv3 {
+#middle {
+	padding:20px;
 	background:#ebebeb;
 	position:absolute;
 	width:50%;
-	height:80%;
+height:94%;
 	margin-left:321px;
-		margin-top:119px;
 	float:left;
-	left: 16px;
-	top: 16px;
 }
-#apDiv4 {
+#right {
 	background:#8ff187;
 	position:absolute;
 	width:25%;
-	height:80%;
+	height:100%;
 	margin-left:1012px;
-	margin-top:135px;
 	float:left;
 }

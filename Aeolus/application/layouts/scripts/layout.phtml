@@ -9,8 +9,8 @@
 <body>
     
     <div id="control">
-<div id="apDiv1"><b>Aeolus Disaster Management System</b></div>
-<div id="apDiv2">
+<div id="header">Aeolus Disaster Management System</div>
+<div id="midcontainer"><div id="left">
   <a href="<?php echo $this->url(
             array('controller'=>'Incident', 'action'=>'add'),
             'default',
@@ -21,11 +21,12 @@
             'default',
             true) ?>">List incidents</a>
 </div>
-<div id="apDiv3">
+<div id="middle">
 <?php echo $this->layout()->content ?>
 
 </div>
-<div id="apDiv4"></div>
+<div id="right"></div>
+</div>
 </div>
 </div>
  
