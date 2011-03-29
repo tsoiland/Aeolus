@@ -27,7 +27,7 @@ class Application_Model_IncidentMapper
             'title'   => $model->getTitle(),
             'description' => $model->getDescription(),
         );
- 
+        
         if (null === ($id = $model->getId())) {
             unset($data['id']);
             $this->getDbTable()->insert($data);
