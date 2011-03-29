@@ -4,25 +4,30 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Aeolus Disaster Management System</title>
-  <?php echo $this->headLink()->appendStylesheet('/css/global.css') ?>
+  <?php echo $this->headLink()->appendStylesheet('/aeolus/public/css/global.css') ?>
 </head>
 <body>
-<div id="header">
-    <div id="header-logo">
-        <b>Aeolus Disaster Management System</b>
-    </div>
-    <div id="header-navigation">
-        <a href="<?php echo $this->url(
+    
+    <div id="control">
+<div id="apDiv1"><b>Aeolus Disaster Management System</b></div>
+<div id="apDiv2">
+  <a href="<?php echo $this->url(
             array('controller'=>'Incident', 'action'=>'add'),
             'default',
             true) ?>">Report Incident</a>
+            <br />
         <a href="<?php echo $this->url(
             array('controller'=>'Incident'),
             'default',
             true) ?>">List incidents</a>
-    </div>
 </div>
+<div id="apDiv3">
 <?php echo $this->layout()->content ?>
+
+</div>
+<div id="apDiv4"></div>
+</div>
+</div>
  
 </body>
 </html>
