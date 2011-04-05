@@ -25,7 +25,8 @@ class AuthController extends Zend_Controller_Action
         $this->view->form = $form;
     	
     }
-     protected function _process($values)
+    
+    protected function _process($values)
     {
         // Get our authentication adapter and check credentials
         $adapter = $this->_getAuthAdapter();
@@ -41,6 +42,7 @@ class AuthController extends Zend_Controller_Action
         }
         return false;
     }
+    
     protected function _getAuthAdapter() {
         
         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
@@ -54,11 +56,11 @@ class AuthController extends Zend_Controller_Action
         
         return $authAdapter;
     }
-        public function logoutAction()
+    
+    public function logoutAction()
     {
         Zend_Auth::getInstance()->clearIdentity();
         $this->_helper->redirector('index'); // back to login page
     }
-    
 }
 
