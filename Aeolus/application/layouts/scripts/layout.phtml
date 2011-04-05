@@ -20,6 +20,8 @@
             array('controller'=>'Incident'),
             'default',
             true) ?>">List incidents</a>
+              <br />
+           <?php echo $this->loggedInAs(); ?> </div>
 </div>
 <div id="middle">
 <?php echo $this->layout()->content ?>
@@ -28,11 +30,5 @@
 <div id="right"></div>
 </div>
 </div>
- 
- 
- <div id="header"> <div id="logged-in-as">
-<?php echo $this->loggedInAs(); ?> </div>
-</div>
- 
 </body>
 </html>
