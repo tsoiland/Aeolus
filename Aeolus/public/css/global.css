@@ -19,6 +19,8 @@ border:1px solid #000;
 #index td {
 	
 	padding:14px;
+	padding-top:0px;
+	padding-bottom:0px;
 	}
 	
 #midcontainer {
@@ -61,3 +63,13 @@ height:94%;
 	margin-left:1012px;
 	float:left;
 }
+
+.view h1 {
+	color:#43b83a;
+	font-weight:bold;
+	}
+	
+	.details {
+	font-style:italic;
+	font-size:90%;
+	}
