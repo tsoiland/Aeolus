@@ -33,7 +33,7 @@ border:1px solid #000;
 	background:#43b83a;
 	height:20%;
 	color:#f1f1f1;
-	width:100%;
+	width:1024px;
 	font-size:150%;
 	font-weight:bold;
 	margin:0;
@@ -58,7 +58,7 @@ height:94%;
 #right {
 	background:#8ff187;
 	position:absolute;
-	width:25%;
+	width:0%;
 	height:100%;
 	margin-left:1012px;
 	float:left;

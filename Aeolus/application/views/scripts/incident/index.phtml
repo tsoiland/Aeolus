@@ -3,7 +3,7 @@
 	<?php foreach ($this->models as $model):?>
 		<tr><td><?php echo $this->escape($model->getId())?></td>
 		<td><a href="<?php echo $this->url(
-            array('controller'=>'Incident', 'action'=>'view', 'id' => $model->getId()),
+            array('controller'=>'incident', 'action'=>'view', 'id' => $model->getId()),
             'default',
             true) ?>"><?php echo $this->escape($model->getTitle())?></a></td></tr>
 	<?php endforeach ?>

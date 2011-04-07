@@ -9,26 +9,29 @@
 <body>
     
     <div id="control">
-<div id="header">Aeolus Disaster Management System</div>
-<div id="midcontainer"><div id="left">
-  <a href="<?php echo $this->url(
-            array('controller'=>'incident', 'action'=>'add'),
-            'default',
-            true) ?>">Report Incident</a>
-            <br />
-        <a href="<?php echo $this->url(
-            array('controller'=>'incident'),
-            'default',
-            true) ?>">List incidents</a>
-              <br />
-           <?php echo $this->loggedInAs(); ?> </div>
-</div>
-<div id="middle">
-<?php echo $this->layout()->content ?>
-
-</div>
-<div id="right"></div>
-</div>
-</div>
+		<div id="header">
+			Aeolus Disaster Management System
+		</div>
+		<div id="midcontainer">
+			<div id="left">
+				<a href="<?php echo $this->url(
+			            array('controller'=>'incident', 'action'=>'add'),
+			            'default',
+			            true) ?>">Report Incident</a>
+			            <br />
+			        <a href="<?php echo $this->url(
+			            array('controller'=>'incident'),
+			            'default',
+			            true) ?>">List incidents</a>
+			              <br />
+			           <?php echo $this->loggedInAs(); ?> 
+			</div>
+			<div id="middle">
+				<?php echo $this->layout()->content ?>	
+			</div>
+			<div id="right">
+			</div>
+		</div>
+	</div>
 </body>
 </html>
