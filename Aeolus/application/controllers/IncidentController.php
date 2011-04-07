@@ -15,8 +15,16 @@ class IncidentController extends Zend_Controller_Action
     {
     	$mapper = new Application_Model_IncidentMapper();
         $this->view->models = $mapper->fetchAll();
+        
+        print '<script type="text/javascript">
+        	function addMarkers() {';
+        foreach($this->view->models as $model) { ?>
+        	addMarker("<?php print $model->getTitle() ?>" ,
+			        	<?php print $model->getLatitude() ?>,
+			        	<?php print $model->getLongitude() ?>);    
+    	<?php }
+    	print '}</script>';
     }
-	
     /*
      *  Show form for reporting incidents
      */

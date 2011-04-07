@@ -5,6 +5,8 @@ class Application_Model_Incident
 	protected $_title;
 	protected $_description;
 	protected $_id;
+	protected $_latitude;
+	protected $_longitude;
 	
 	public function __set($name, $value) {
 		
@@ -29,5 +31,17 @@ class Application_Model_Incident
 	}
 	public function setId($value) {
 		$this->_id = $value;
+	}
+	public function getLatitude() {
+		return $this->_latitude;
+	}
+	public function setLatitude($value) {
+		$this->_latitude = $value;
+	}
+	public function getLongitude() {
+		return $this->_longitude;
+	}
+	public function setLongitude($value) {
+		$this->_longitude = $value;
 	}
 }

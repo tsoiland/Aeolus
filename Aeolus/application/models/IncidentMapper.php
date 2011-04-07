@@ -45,6 +45,8 @@ class Application_Model_IncidentMapper
         $model->setId($row->id);
         $model->setTitle($row->title);
         $model->setDescription($row->description);
+        $model->setLatitude($row->latitude);
+        $model->setLongitude($row->longitude);
         return $model;
     }
     public function fetchAll() {
@@ -55,6 +57,8 @@ class Application_Model_IncidentMapper
             $model->setId($row->id);
             $model->setTitle($row->title);
             $model->setDescription($row->description);
+	        $model->setLatitude($row->latitude);
+	        $model->setLongitude($row->longitude);
             $models[] = $model;
         }
         return $models;
