@@ -4,9 +4,9 @@ var map;
 function initialize(arg) {
 	if (arg!='') {
 		// Setup map
-		var latlng = new google.maps.LatLng(-34.397, 150.644);
+		var latlng = new google.maps.LatLng(-20.0333, 148.969);
 		var myOptions = {
-		  zoom: 8,
+		  zoom: 5,
 		  center: latlng,
 		  mapTypeId: google.maps.MapTypeId.ROADMAP
 		};

@@ -24,6 +24,11 @@
 			            array('controller'=>'incident'),
 			            'default',
 			            true) ?>">List incidents</a>
+			            <br />
+			        <a href="<?php echo $this->url(
+			            array('controller'=>'incident', 'action'=>'indexmap'),
+			            'default',
+			            true) ?>">Incident map</a>
 			              <br />
 			           <?php echo $this->loggedInAs(); ?> 
 			</div>
