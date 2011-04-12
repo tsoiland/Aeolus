@@ -2,6 +2,7 @@
 body {
 margin:0;
 font-family:arial;
+background:#dadada;
 }
 #control {
 margin:0px;	
@@ -27,46 +28,73 @@ border:1px solid #000;
 	width:80%;
 	}
 	
+	#topleft {
+	background: url(../images/topleft.png) no-repeat bottom;
+	width:500px;
 	
-
-#header {
-	background:#43b83a;
-	height:20%;
-	color:#f1f1f1;
-	width:1024px;
+		}
+	
+	.bannertext {
+	color:#fafafa;
 	font-size:150%;
 	font-weight:bold;
+	text-shadow:1px 1px 0px #000;
+	}
+
+#header {
+	background: url(../images/top.png) repeat-x bottom;
+	height:20%;
+	width:800px;
 	margin:0;
 	padding:50px;
+	margin-left:500px;
+	margin-right:0;
 }
 #left {
-	background:#8ff187;
-	width:25%;
+	background: url(../images/left.png) repeat-y right;
+	width:516px;
 	float:left;
 	height:100%;
 	position:absolute;
+	color:#fafafa;
 }
+
+#left a {
+	text-decoration:none;
+	font-weight:bold;
+	color:#fff;
+	}
+	
+	#left a:hover {
+	text-decoration:underline;
+	}
+	
 #middle {
+	text-shadow:1px 1px 0px #fafafa;
 	padding:20px;
-	background:#ebebeb;
+	background:#dadada;
 	position:absolute;
-	width:50%;
-height:94%;
+	width:auto;
+height:auto;
 	margin-left:321px;
 	float:left;
 }
-#right {
-	background:#8ff187;
-	position:absolute;
-	width:0%;
-	height:100%;
-	margin-left:1012px;
-	float:left;
-}
+
+#middle a {
+	text-shadow:none;
+	color:#a61015;
+	text-decoration:none;
+	font-weight:bold;
+	}
+
+#middle a:hover {
+	text-decoration:underline;
+	}
 
 .view h1 {
-	color:#43b83a;
+	color:#a61015;
 	font-weight:bold;
+	text-shadow:1px 1px 0px #fff;
 	}
 	
 	.details {
