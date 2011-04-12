@@ -26,6 +26,8 @@ class Application_Model_IncidentMapper
     	$data = array(
             'title'   => $model->getTitle(),
             'description' => $model->getDescription(),
+    		'latitude' => $model->getLatitude(),
+    		'longitude' => $model->getLongitude()
         );
         
         if (null === ($id = $model->getId())) {

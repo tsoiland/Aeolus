@@ -15,6 +15,14 @@ class IncidentController extends Zend_Controller_Action
     {
     	$mapper = new Application_Model_IncidentMapper();
         $this->view->models = $mapper->fetchAll();
+    }
+    /*
+     * 	List all incidents on map
+     */
+    public function indexmapAction()
+    {
+    	$mapper = new Application_Model_IncidentMapper();
+        $this->view->models = $mapper->fetchAll();
         
         print '<script type="text/javascript">
         	function addMarkers() {';
@@ -24,6 +32,8 @@ class IncidentController extends Zend_Controller_Action
 			        	<?php print $model->getLongitude() ?>);    
     	<?php }
     	print '}</script>';
+    	
+    	$this->view->jsInitParameters = "'index'";
     }
     /*
      *  Show form for reporting incidents
@@ -31,6 +41,7 @@ class IncidentController extends Zend_Controller_Action
     public function addAction()
     {
        	$this->view->form = $this->getForm();
+       	$this->view->jsInitParameters = "'add'";
     }
     
     /*
@@ -55,6 +66,8 @@ class IncidentController extends Zend_Controller_Action
         $values = $form->getValues();
         $model->setTitle($values['title']);
         $model->setDescription($values['description']);
+        $model->setLatitude($values['latitude']);
+        $model->setLongitude($values['longitude']);
         
         // Save the model.
         $mapper = new Application_Model_IncidentMapper();
@@ -92,6 +105,8 @@ class IncidentController extends Zend_Controller_Action
         	->setMethod('post');
        	$form->addElement('text', 'title', array('label' => 'Title'));
        	$form->addElement('textarea', 'description', array('label' => 'Description'));
+       	$form->addElement('hidden', 'longitude');
+       	$form->addElement('hidden', 'latitude');
        	$form->addElement('submit', 'login', array('label' => 'Report'));
        	return $form;
 	}
