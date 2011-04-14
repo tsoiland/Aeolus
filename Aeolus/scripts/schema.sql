@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 07, 2011 at 04:36 PM
+-- Generation Time: Apr 14, 2011 at 01:03 PM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-1ubuntu9.3
 
@@ -18,6 +18,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `aeolus`
 --
+DROP DATABASE `aeolus`;
 CREATE DATABASE `aeolus` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `aeolus`;
 
@@ -34,16 +35,20 @@ CREATE TABLE IF NOT EXISTS `incident` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `latitude` float NOT NULL,
   `longitude` float NOT NULL,
+  `verified` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `incident`
 --
 
-INSERT INTO `incident` (`title`, `description`, `id`, `latitude`, `longitude`) VALUES
-('Testtitle', 'This is the test description', 1, -34.397, 150.644),
-('trdfg', 'sdg', 2, -35.397, 150.644);
+INSERT INTO `incident` (`title`, `description`, `id`, `latitude`, `longitude`, `verified`) VALUES
+('Testtitle', 'This is the test description', 1, -34.397, 150.644, 0),
+('trdfg', 'sdg', 2, -35.397, 150.644, 0),
+('fdsg', 'sdfg', 3, -33.27, 151.792, 0),
+('hello', 'test', 4, -33.2792, 149.595, 0),
+('rwer', 'wer', 5, -23.0333, 145.969, 1);
 
 -- --------------------------------------------------------
 
