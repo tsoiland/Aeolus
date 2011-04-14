@@ -24,7 +24,7 @@ class AuthPlugin extends Zend_Controller_Plugin_Abstract
 		
 		if (!$isAllowed) {
 			$redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
-			$redirector->gotoUrlAndExit('/');
+			$redirector->gotoUrlAndExit('/auth');
 		}
 
     }

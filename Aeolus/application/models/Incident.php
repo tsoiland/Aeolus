@@ -7,6 +7,7 @@ class Application_Model_Incident
 	protected $_id;
 	protected $_latitude;
 	protected $_longitude;
+	protected $_verified;
 	
 	public function __set($name, $value) {
 		
@@ -43,5 +44,11 @@ class Application_Model_Incident
 	}
 	public function setLongitude($value) {
 		$this->_longitude = $value;
+	}
+	public function getVerified() {
+		return $this->_verified;
+	}
+	public function setVerified($value) {
+		$this->_verified = $value;
 	}
 }

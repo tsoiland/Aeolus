@@ -95,6 +95,21 @@ class IncidentController extends Zend_Controller_Action
         $mapper = new Application_Model_IncidentMapper();
         $this->view->model = $mapper->find($id);
     }
+    
+    public function verifyAction()
+    {
+    	// Get incident id from url.
+    	$id = $this->_request->getParam('id');
+    	
+    	// Fetch incident 
+        $mapper = new Application_Model_IncidentMapper();
+        $model = $mapper->find($id);
+        
+        $model->setVerified(TRUE);
+        $mapper->save($model);
+        $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
+		$redirector->gotoUrlAndExit("/incident/view/id/$id");
+    }
 
     /*
      *  Construct the form for reporting incidents

@@ -27,7 +27,8 @@ class Application_Model_IncidentMapper
             'title'   => $model->getTitle(),
             'description' => $model->getDescription(),
     		'latitude' => $model->getLatitude(),
-    		'longitude' => $model->getLongitude()
+    		'longitude' => $model->getLongitude(),
+    		'verified' => $model->getVerified()
         );
         
         if (null === ($id = $model->getId())) {
@@ -49,6 +50,7 @@ class Application_Model_IncidentMapper
         $model->setDescription($row->description);
         $model->setLatitude($row->latitude);
         $model->setLongitude($row->longitude);
+        $model->setVerified($row->verified);
         return $model;
     }
     public function fetchAll() {
@@ -61,6 +63,7 @@ class Application_Model_IncidentMapper
             $model->setDescription($row->description);
 	        $model->setLatitude($row->latitude);
 	        $model->setLongitude($row->longitude);
+	        $model->setVerified($row->verified);
             $models[] = $model;
         }
         return $models;

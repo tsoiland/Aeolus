@@ -5,6 +5,7 @@
 		<td><a href="<?php echo $this->url(
             array('controller'=>'incident', 'action'=>'view', 'id' => $model->getId()),
             'default',
-            true) ?>"><?php echo $this->escape($model->getTitle())?></a></td></tr>
+            true) ?>"><?php echo $this->escape($model->getTitle())?></a></td>
+        <td><?php echo ($model->getVerified()) ? 'yes' : 'no' ; ?></td></tr>
 	<?php endforeach ?>
 </table>

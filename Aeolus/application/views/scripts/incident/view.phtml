@@ -1,5 +1,13 @@
 
-<span class="view">
+<div class="view">
 <h1>Details of <?php echo $this->model->getTitle();?></h1><br />
-<span class="details"><?php echo $this->model->getDescription();?></span>
-</span>
+<span class="details"><?php echo $this->model->getDescription();?></span><br />
+<span>Verified: <?php echo ($this->model->getVerified()) ? 'yes' : 'no' ; ?></span>
+<?php if(!$this->model->getVerified()):?>
+	<?php $url = $this->url(
+		array('controller'=>'incident', 'action'=>'verify', 'id' => $this->model->getId()),
+		'default', true);?>
+	<a href="<?php echo $url ?>
+		">Verify incident</a>
+<?php endif;?>
+</div>

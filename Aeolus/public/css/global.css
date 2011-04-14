@@ -101,4 +101,17 @@ height:auto;
 	font-style:italic;
 	font-size:90%;
 	}
-#map_canvas { height: 100% }
+#map_canvas {
+	height: 500px;
+	width: 578px;
+}
+#login-label {
+	height: 520px;
+}
+#add-incident #map_canvas {
+	/*margin-top: -550px;/**/	
+	margin-left: 40px;
+}
+#map-label {
+	margin-top: -570px;
+}
