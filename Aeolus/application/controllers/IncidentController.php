@@ -47,7 +47,8 @@ class IncidentController extends Zend_Controller_Action
     /*
      *  Handle postback from form in addAction()
      */
-    public function addpostAction() {
+    public function addpostAction() 
+    {
     	// If this request is not actually a POST then go back to the form.
     	if (!$this->getRequest()->isPost()) {
             return $this->_forward('add');
@@ -68,6 +69,7 @@ class IncidentController extends Zend_Controller_Action
         $model->setDescription($values['description']);
         $model->setLatitude($values['latitude']);
         $model->setLongitude($values['longitude']);
+        $model->setVerified(false);
         
         // Save the model.
         $mapper = new Application_Model_IncidentMapper();
@@ -114,16 +116,9 @@ class IncidentController extends Zend_Controller_Action
     /*
      *  Construct the form for reporting incidents
      */
-	private function getForm() {
-		$form = new Zend_Form;
-        $form->setAction('addpost')
-        	->setMethod('post');
-       	$form->addElement('text', 'title', array('label' => 'Title'));
-       	$form->addElement('textarea', 'description', array('label' => 'Description'));
-       	$form->addElement('hidden', 'longitude');
-       	$form->addElement('hidden', 'latitude');
-       	$form->addElement('submit', 'login', array('label' => 'Report'));
-       	return $form;
+	private function getForm() 
+	{
+       	return new Application_Form_Incident();
 	}
 }
 

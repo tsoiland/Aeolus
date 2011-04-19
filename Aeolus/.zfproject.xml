@@ -18,16 +18,23 @@
         <controllerFile controllerName="Auth">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="User">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Login"/>
+        <formFile formName="User"/>
+        <formFile formName="Incident"/>
       </formsDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
         <modelFile modelName="Incident"/>
         <dbTableDirectory>
           <dbTableFile dbTableName="Incident"/>
+          <dbTableFile dbTableName="User"/>
         </dbTableDirectory>
+        <modelFile modelName="User"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <viewsDirectory>
@@ -43,6 +50,15 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Auth">
             <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="add"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="edit"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
@@ -80,6 +96,7 @@
         <testApplicationControllerDirectory>
           <testApplicationControllerFile filesystemName="IncidentControllerTest.php"/>
           <testApplicationControllerFile filesystemName="AuthControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="UserControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

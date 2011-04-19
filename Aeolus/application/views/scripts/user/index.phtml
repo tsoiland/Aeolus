@@ -1,0 +1,10 @@
+<table id="index">
+	<tr><td>Id</td><td>Username</td></tr>
+	<?php foreach ($this->models as $model):?>
+		<tr><td><?php echo $this->escape($model->getId())?></td>
+		<td><a href="<?php echo $this->url(
+            array('controller'=>'user', 'action'=>'view', 'id' => $model->getId()),
+            'default',
+            true) ?>"><?php echo $this->escape($model->getUsername())?></a></td></tr>
+	<?php endforeach ?>
+</table>

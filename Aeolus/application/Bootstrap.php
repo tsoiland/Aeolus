@@ -23,7 +23,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		// Controller script names. You have to add all of them if credential check
 		// is global to your application.
-		$controllers = array('index', 'auth', 'incident', 'error');
+		$controllers = array('index', 'auth', 'incident', 'error', 'user');
 		
 		foreach ($roles as $role) {
 		    $acl->addRole(new Zend_Acl_Role($role));
