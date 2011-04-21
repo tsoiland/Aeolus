@@ -1,0 +1,10 @@
+<div class="view">
+<h1>Details of <?php echo $this->model->getUsername();?></h1>
+<?php $url = $this->url(
+		array('controller'=>'user', 'action'=>'edit', 'id' => $this->model->getId()),
+		'default', true);?>
+	<a href="<?php echo $url ?>
+		">edit user</a>
+<br />
+<span class="role">Role: <?php echo $this->model->getRole();?></span><br />
+</div>

@@ -1,3 +1,7 @@
+<a href="<?php echo $this->url(
+            array('controller'=>'user', 'action'=>'add',
+            'default',
+            true)) ?>">Add user</a>
 <table id="index">
 	<tr><td>Id</td><td>Username</td></tr>
 	<?php foreach ($this->models as $model):?>

@@ -24,6 +24,25 @@ function initialize(arg) {
 			document.getElementById("latitude").value = event.latLng.lat().toFixed(6);
 			marker.setPosition(event.latLng);
 		});
+		google.maps.event.addListener(marker, 'dragend', function(event) {
+			document.getElementById("longitude").value = event.latLng.lng().toFixed(6);
+			document.getElementById("latitude").value = event.latLng.lat().toFixed(6);
+		});
+	} else if (arg=='edit') {
+		// Set up movable marker.
+		marker = addMarkerForEdit();
+		google.maps.event.addListener(map, 'click', function(event) {
+			document.getElementById("longitude").value = event.latLng.lng().toFixed(6);
+			document.getElementById("latitude").value = event.latLng.lat().toFixed(6);
+			marker.setPosition(event.latLng);
+		});
+		google.maps.event.addListener(marker, 'dragend', function(event) {
+			document.getElementById("longitude").value = event.latLng.lng().toFixed(6);
+			document.getElementById("latitude").value = event.latLng.lat().toFixed(6);
+		});
+	} else if (arg=='view') {
+		// Set up static marker.
+		addMarkerForView();
 	}
 }
 

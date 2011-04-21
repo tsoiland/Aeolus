@@ -15,10 +15,10 @@ abstract class Application_Model_AbstractMapper
         return $this;
     }
     
- 	public function save(Application_Model_Incident $model)
+ 	public function save($model)
  	{
-    	$data = $this->_createDataArray($model);
-        
+    	$data = $this->createDataArray($model);
+    	
         if (null === ($id = $model->getId())) {
             unset($data['id']);
             $this->getDbTable()->insert($data);
@@ -43,7 +43,7 @@ abstract class Application_Model_AbstractMapper
         }
         
         $row = $result->current();
-        $model = $this->_createAndPopulateModel($row);
+        $model = $this->createAndPopulateModel($row);
         return $model;
     }
     
@@ -52,9 +52,10 @@ abstract class Application_Model_AbstractMapper
     	$resultSet = $this->getDbTable()->fetchAll();
         $models = array();
         foreach ($resultSet as $row) {
-            $models[] = $this->_createAndPopulateModel($row);
+            $models[] = $this->createAndPopulateModel($row);
         }
         return $models;
     }
+    
 }
 ?>

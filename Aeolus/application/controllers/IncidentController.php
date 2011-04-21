@@ -27,7 +27,7 @@ class IncidentController extends Zend_Controller_Action
         print '<script type="text/javascript">
         	function addMarkers() {';
         foreach($this->view->models as $model) { ?>
-        	addMarker("<?php print $model->getTitle() ?>" ,
+        	return addMarker("<?php print $model->getTitle() ?>" ,
 			        	<?php print $model->getLatitude() ?>,
 			        	<?php print $model->getLongitude() ?>);    
     	<?php }
@@ -38,51 +38,80 @@ class IncidentController extends Zend_Controller_Action
     /*
      *  Show form for reporting incidents
      */
-    public function addAction()
+	public function addAction()
     {
-       	$this->view->form = $this->getForm();
-       	$this->view->jsInitParameters = "'add'";
+        if ($this->getRequest()->isPost()) {
+	        $form = $this->getForm();
+	        
+        	// If validation failed, redisplay form. Also the isValid() method is needed to repopulate $form with posted values.
+	        if (!$form->isValid($_POST)) {
+	            $this->view->form = $form;
+	            return $this->render('form');
+	        }
+	        
+	        // Construct and populate the model. getValues() returns an array and we need an object.
+	        // Therefore we simply cast it. The @ supresses notices that result from this.
+	        $values = (object) $form->getValues();
+	        $model = @Application_Model_IncidentMapper::createAndPopulateModel($values);
+	        $model->setVerified(false);
+	        
+	        // Save the model.
+	        $mapper = new Application_Model_IncidentMapper();
+	        $mapper->save($model);
+	        
+	        $this->_helper->flashMessenger()->addMessage('Details Saved');
+            $this->_helper->redirector->gotoUrlAndExit('incident/index');
+     	}
+        
+        $this->view->form = $this->getForm();
+        $this->view->jsInitParameters = "'add'";
     }
     
-    /*
-     *  Handle postback from form in addAction()
-     */
-    public function addpostAction() 
-    {
-    	// If this request is not actually a POST then go back to the form.
-    	if (!$this->getRequest()->isPost()) {
-            return $this->_forward('add');
-        }
-        
-        $form = $this->getForm();
+	public function editAction() 
+	{
+		// Get incident id from url.
+    	$id = $this->_request->getParam('id');
     	
-        // If validation failed, redisplay form. Also the isValid() method is needed to repopulate $form with posted values.
-        if (!$form->isValid($_POST)) {
-            $this->view->form = $form;
-            return $this->render('form');
-        }
-        
-        // Construct and populate the model.
-        $model = new Application_Model_Incident();
-        $values = $form->getValues();
-        $model->setTitle($values['title']);
-        $model->setDescription($values['description']);
-        $model->setLatitude($values['latitude']);
-        $model->setLongitude($values['longitude']);
-        $model->setVerified(false);
-        
-        // Save the model.
-        $mapper = new Application_Model_IncidentMapper();
-        $mapper->save($model);
-        
-        $this->_helper->redirector('addconfirm');
-    }
-    
-    /*
-     *  Simply display confirmation. (See view)
-     */
-	public function addconfirmAction() {
+		if ($this->getRequest()->isPost()) {
+	        $form = $this->getForm();
+	        
+        	// If validation failed, redisplay form. Also the isValid() method is needed to repopulate $form with posted values.
+	        if (!$form->isValid($_POST)) {
+	            $this->view->form = $form;
+	            return $this->render('form');
+	        }
+	        
+	        $values = $form->getValues();
+	        $values['id'] = $id;
+	        $model = Application_Model_IncidentMapper::createAndPopulateModelFromArray($values);
+
+	        // Save the model.
+	        $mapper = new Application_Model_IncidentMapper();
+	        $mapper->save($model);
+	        
+	        $this->_helper->flashMessenger()->addMessage('Details Saved');
+            $this->_helper->redirector->gotoUrlAndExit('incident/view/id/' . $id);
+	        
+		}
 		
+    	
+		$mapper = new Application_Model_IncidentMapper();
+		$model = $mapper->find($id);
+		$data_array = Application_Model_IncidentMapper::createDataArray($model);
+		
+		$this->view->form = $this->getForm();
+		$this->view->form->populate($data_array);
+		
+		// BEWARE - here be javascript hack
+		print '<script type="text/javascript">
+        	function addMarkerForEdit() {'; ?>
+        	return addMarker("<?php print $model->getTitle() ?>" ,
+			        	<?php print $model->getLatitude() ?>,
+			        	<?php print $model->getLongitude() ?>,
+			        	true);    
+    	<?php 
+    	print '}</script>';
+        $this->view->jsInitParameters = "'edit'";
 	}
 	
 	/*
@@ -95,7 +124,19 @@ class IncidentController extends Zend_Controller_Action
     	
     	// Fetch incident 
         $mapper = new Application_Model_IncidentMapper();
-        $this->view->model = $mapper->find($id);
+        $model = $mapper->find($id);
+        $this->view->model = $model;
+        
+        // BEWARE - here be javascript hack
+		print '<script type="text/javascript">
+        	function addMarkerForView() {'; ?>
+        	addMarker("<?php print $model->getTitle() ?>" ,
+			        	<?php print $model->getLatitude() ?>,
+			        	<?php print $model->getLongitude() ?>),
+			        	false;    
+    	<?php 
+    	print '}</script>';
+        $this->view->jsInitParameters = "'view'";/**/
     }
     
     public function verifyAction()
