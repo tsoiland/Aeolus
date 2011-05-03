@@ -10,6 +10,10 @@
             array('controller'=>'user', 'action'=>'view', 'id' => $model->getId()),
             'default',
             true) ?>"><?php echo $this->escape($model->getUsername())?></a></td>
-        <td><?php echo $model->getExhaustionStatus(); ?></td></tr>
+        <td><?php echo $model->getExhaustionStatus(); ?></td>
+        <td><a href="<?php echo $this->url(
+            array('controller'=>'user', 'action'=>'delete', 'id' => $model->getId()),
+            'default',
+            true) ?>">Delete</a></td></tr>
 	<?php endforeach ?>
 </table>

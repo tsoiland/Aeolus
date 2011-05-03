@@ -56,6 +56,12 @@ abstract class Application_Model_AbstractMapper
         }
         return $models;
     }
-    
+    public function delete($id)
+    {
+    	if ($id != null) {
+	    	$where = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $id);
+			$this->getDbTable()->delete($where);
+    	}
+    }
 }
 ?>

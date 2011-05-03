@@ -153,6 +153,22 @@ class IncidentController extends Zend_Controller_Action
         $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
 		$redirector->gotoUrlAndExit("/incident/view/id/$id");
     }
+    
+    public function deleteAction() 
+    {
+    	$id = $this->_request->getParam('id');
+    	
+    	$mapper = new Application_Model_IncidentMapper();
+    	if($mapper->find($id)) {
+	    	$mapper->delete($id);
+	    	
+	    	$this->_helper->flashMessenger()->addMessage("The incident id $id is no more.");
+    	} else {
+    		$this->_helper->flashMessenger()->addMessage("The incident id $id couldn't be found.");
+    	}
+    	$this->_helper->redirector->gotoUrlAndExit('incident');
+    }
+	
 
     /*
      *  Construct the form for reporting incidents

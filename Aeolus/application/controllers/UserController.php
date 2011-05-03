@@ -117,10 +117,25 @@ class UserController extends Zend_Controller_Action
     	$this->_helper->flashMessenger()->addMessage('You were successfully clocked out.');
     	$this->_helper->redirector->gotoUrlAndExit('user/myhome');
     }
+    public function deleteAction() 
+    {
+    	$id = $this->_request->getParam('id');
+    	
+    	$mapper = new Application_Model_UserMapper();
+    	if($mapper->find($id)) {
+	    	$mapper->delete($id);
+	    	
+	    	$this->_helper->flashMessenger()->addMessage("The user id $id is no more.");
+    	} else {
+    		$this->_helper->flashMessenger()->addMessage("The user id $id couldn't be found.");
+    	}
+    	$this->_helper->redirector->gotoUrlAndExit('user');
+    }
 	private function getForm() 
 	{
        	return new Application_Form_User();
 	}
+	
 	private function getLoggedInUser()
 	{
 		$auth = Zend_Auth::getInstance();
