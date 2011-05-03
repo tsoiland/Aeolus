@@ -40,5 +40,19 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
 	    return $model;    
     }
     
+    public function fetchUsersIncidents($id) 
+    {
+    	$sql = "SELECT * 
+				FROM incidents i
+				LEFT JOIN user_incident ui ON ui.incident_id = i.id
+				WHERE ui.user_id =1
+				LIMIT 0 , 30";
+    	$rows = $this->getDbTable()->getAdapter()->fetchAll($sql);
+    	foreach($rows as $row) {
+    		$models[] = $this->createAndPopulateModelFromArray($row);
+    	}
+    	return $models;
+    }
+    
 }
 ?>

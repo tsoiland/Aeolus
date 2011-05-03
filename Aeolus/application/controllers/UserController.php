@@ -92,8 +92,8 @@ class UserController extends Zend_Controller_Action
     {
     	// Get incidents
     	$mapper = new Application_Model_IncidentMapper();
-        $this->view->models = $mapper->fetchAll();
-        
+    	$id = $this->getLoggedInUser()->getId();
+        $this->view->models = $mapper->fetchUsersIncidents($id);
         $this->view->user = $this->getLoggedInUser();
         
     }

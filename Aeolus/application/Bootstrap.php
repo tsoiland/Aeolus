@@ -19,7 +19,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	{
 		$acl = new Zend_Acl();
 		
-		$roles  = array('admin', 'guest');
+		$roles  = array('admin', 'guest', 'field_personel');
 		
 		// Controller script names. You have to add all of them if credential check
 		// is global to your application.
@@ -38,6 +38,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		// Here comes credential definition for normal user.
 		$acl->allow('guest'); // Has access to everything...
 		$acl->deny('guest', 'incident'); // ... except the admin controller.
+		$acl->deny('guest', 'user');
 		
 		// Finally I store whole ACL definition to registry for use
 		// in AuthPlugin plugin.
