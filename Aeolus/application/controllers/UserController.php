@@ -87,10 +87,46 @@ class UserController extends Zend_Controller_Action
         $mapper = new Application_Model_UserMapper();
         $this->view->model = $mapper->find($id);
     }
-
+	
+    public function myhomeAction() 
+    {
+    	// Get incidents
+    	$mapper = new Application_Model_IncidentMapper();
+        $this->view->models = $mapper->fetchAll();
+        
+        $this->view->user = $this->getLoggedInUser();
+        
+    }
+    public function clockinAction() 
+    {
+    	$user = $this->getLoggedInUser();
+    	$user->clockIn();
+    	$mapper = new Application_Model_UserMapper();
+    	$mapper->save($user);
+    		
+    	$this->_helper->flashMessenger()->addMessage('You were successfully clocked in.');
+        $this->_helper->redirector->gotoUrlAndExit('user/myhome');
+    }
+    public function clockoutAction() 
+    {
+    	$user = $this->getLoggedInUser();
+    	$user->clockOut();
+    	$mapper = new Application_Model_UserMapper();
+    	$mapper->save($user);
+    	
+    	$this->_helper->flashMessenger()->addMessage('You were successfully clocked out.');
+    	$this->_helper->redirector->gotoUrlAndExit('user/myhome');
+    }
 	private function getForm() 
 	{
        	return new Application_Form_User();
+	}
+	private function getLoggedInUser()
+	{
+		$auth = Zend_Auth::getInstance();
+        $user = $auth->getStorage()->read();
+        $mapper = new Application_Model_UserMapper();
+        return $mapper->find($user->id);
 	}
 }
 

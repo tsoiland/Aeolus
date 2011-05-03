@@ -27,7 +27,7 @@ class IncidentController extends Zend_Controller_Action
         print '<script type="text/javascript">
         	function addMarkers() {';
         foreach($this->view->models as $model) { ?>
-        	return addMarker("<?php print $model->getTitle() ?>" ,
+        	addMarker("<?php print $model->getTitle() ?>" ,
 			        	<?php print $model->getLatitude() ?>,
 			        	<?php print $model->getLongitude() ?>);    
     	<?php }

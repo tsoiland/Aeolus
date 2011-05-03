@@ -1,0 +1,26 @@
+<div id="clock_in_out">
+	<div>status: <?php echo $this->user->getExhaustionStatus(); ?></div>
+	<?php if($this->user->isClockedIn()):?>
+		<a href="<?php echo $this->url(
+            array('controller'=>'user', 'action'=>'clockout'),
+            'default',
+            true) ?>">Clock out</a>
+	<?php else:?>
+		<a href="<?php echo $this->url(
+            array('controller'=>'user', 'action'=>'clockin'),
+            'default',
+            true) ?>">Clock in</a>
+	<?php endif;?>
+</div>
+
+<table id="index">
+	<tr><td>Id</td><td>Title</td></tr>
+	<?php foreach ($this->models as $model):?>
+		<tr><td><?php echo $this->escape($model->getId())?></td>
+		<td><a href="<?php echo $this->url(
+            array('controller'=>'incident', 'action'=>'view', 'id' => $model->getId()),
+            'default',
+            true) ?>"><?php echo $this->escape($model->getTitle())?></a></td>
+        <td><?php echo ($model->getVerified()) ? 'yes' : 'no' ; ?></td></tr>
+	<?php endforeach ?>
+</table>

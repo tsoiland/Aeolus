@@ -19,7 +19,7 @@ abstract class Application_Model_AbstractMapper
  	{
     	$data = $this->createDataArray($model);
     	
-        if (null === ($id = $model->getId())) {
+    	if (null === ($id = $model->getId())) {
             unset($data['id']);
             $this->getDbTable()->insert($data);
         } else {
