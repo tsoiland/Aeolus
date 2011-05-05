@@ -171,6 +171,8 @@ class IncidentController extends Zend_Controller_Action
 	
 	public function assignpersonnelAction()
 	{
+		 $incident_id = $this->_request->getParam('id');
+    	
 		 if ($this->getRequest()->isPost()) {
 	        $form = $this->getForm();
 	        
@@ -179,8 +181,7 @@ class IncidentController extends Zend_Controller_Action
 	            $this->view->form = $form;
 	            return $this->render('form');
 	        }
-	        $incident_id = $this->_request->getParam('id');
-    	
+	        
     		$mapper = new Application_Model_IncidentMapper();
 	        foreach ($_POST as $user_id => $assigned) {
 				if(is_integer($user_id)) {
@@ -200,7 +201,13 @@ class IncidentController extends Zend_Controller_Action
         $mapper = new Application_Model_UserMapper();
         $users = $mapper->fetchAll();
         
-		$this->view->form = new Application_Form_AssignPersonnel($users);	
+        $mapper = new Application_Model_IncidentMapper();
+        
+        $data = $mapper->getAssignUserToIncidentFormData($incident_id);
+        
+		$form = new Application_Form_AssignPersonnel($users);
+		$form->setDefaults($data);
+		$this->view->form = $form;	
 	}
     /*
      *  Construct the form for reporting incidents

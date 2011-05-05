@@ -65,7 +65,7 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
     	} catch (Exception $e) {
     	}
     }
-    
+
 	public function unAssignUserToIncident($user_id, $incident_id) 
     {
     	$sql = "DELETE FROM user_incident WHERE user_id = $user_id AND incident_id = $incident_id";
@@ -73,6 +73,18 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
     	
     	
     	$db->query($sql);
+    }
+    
+	public function getAssignUserToIncidentFormData($incident_id) 
+    {
+    	$sql = "SELECT * FROM user_incident WHERE incident_id = '$incident_id'";
+    	$rows = $this->getDbTable()->getAdapter()->fetchAll($sql);
+    	
+    	$data = array();
+    	foreach($rows as $row) {
+    		$data[$row['user_id']] = 1;
+    	}
+    	return $data;
     }
 }
 ?>
