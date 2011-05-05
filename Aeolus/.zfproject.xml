@@ -26,6 +26,7 @@
         <formFile formName="Login"/>
         <formFile formName="User"/>
         <formFile formName="Incident"/>
+        <formFile formName="AssignPersonel"/>
       </formsDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>

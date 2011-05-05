@@ -48,11 +48,31 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
 				WHERE ui.user_id =1
 				LIMIT 0 , 30";
     	$rows = $this->getDbTable()->getAdapter()->fetchAll($sql);
+    	$models = array();
     	foreach($rows as $row) {
     		$models[] = $this->createAndPopulateModelFromArray($row);
     	}
     	return $models;
     }
     
+	public function assignUserToIncident($user_id, $incident_id) 
+    {
+    	$sql = "INSERT INTO user_incident VALUES ($user_id, $incident_id)";
+    	$db = $this->getDbTable()->getAdapter();
+    	
+    	try {
+    		$db->query($sql);
+    	} catch (Exception $e) {
+    	}
+    }
+    
+	public function unAssignUserToIncident($user_id, $incident_id) 
+    {
+    	$sql = "DELETE FROM user_incident WHERE user_id = $user_id AND incident_id = $incident_id";
+    	$db = $this->getDbTable()->getAdapter();
+    	
+    	
+    	$db->query($sql);
+    }
 }
 ?>

@@ -15,12 +15,14 @@
 
 <table id="index">
 	<tr><td>Id</td><td>Title</td></tr>
-	<?php foreach ($this->models as $model):?>
-		<tr><td><?php echo $this->escape($model->getId())?></td>
-		<td><a href="<?php echo $this->url(
-            array('controller'=>'incident', 'action'=>'view', 'id' => $model->getId()),
-            'default',
-            true) ?>"><?php echo $this->escape($model->getTitle())?></a></td>
-        <td><?php echo ($model->getVerified()) ? 'yes' : 'no' ; ?></td></tr>
-	<?php endforeach ?>
+	<?php if(!empty($this->models)): ?>
+		<?php foreach ($this->models as $model):?>
+			<tr><td><?php echo $this->escape($model->getId())?></td>
+			<td><a href="<?php echo $this->url(
+	            array('controller'=>'incident', 'action'=>'view', 'id' => $model->getId()),
+	            'default',
+	            true) ?>"><?php echo $this->escape($model->getTitle())?></a></td>
+	        <td><?php echo ($model->getVerified()) ? 'yes' : 'no' ; ?></td></tr>
+		<?php endforeach ?>
+	<?php endif ?>
 </table>

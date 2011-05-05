@@ -169,7 +169,39 @@ class IncidentController extends Zend_Controller_Action
     	$this->_helper->redirector->gotoUrlAndExit('incident');
     }
 	
-
+	public function assignpersonnelAction()
+	{
+		 if ($this->getRequest()->isPost()) {
+	        $form = $this->getForm();
+	        
+        	// If validation failed, redisplay form. Also the isValid() method is needed to repopulate $form with posted values.
+	        if (!$form->isValid($_POST)) {
+	            $this->view->form = $form;
+	            return $this->render('form');
+	        }
+	        $incident_id = $this->_request->getParam('id');
+    	
+    		$mapper = new Application_Model_IncidentMapper();
+	        foreach ($_POST as $user_id => $assigned) {
+				if(is_integer($user_id)) {
+					if($assigned) {
+						$mapper->assignUserToIncident($user_id, $incident_id);	
+					} else {
+						$mapper->unAssignUserToIncident($user_id, $incident_id);	
+					}
+				}
+	        }
+	        //die(print_r($_POST, true));
+	        
+	        $this->_helper->flashMessenger()->addMessage('Personnel assignment saved.');
+            $this->_helper->redirector->gotoUrlAndExit('incident/index');
+     	}
+        
+        $mapper = new Application_Model_UserMapper();
+        $users = $mapper->fetchAll();
+        
+		$this->view->form = new Application_Form_AssignPersonnel($users);	
+	}
     /*
      *  Construct the form for reporting incidents
      */
