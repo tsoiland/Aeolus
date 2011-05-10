@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 03, 2011 at 12:14 PM
+-- Generation Time: May 10, 2011 at 11:05 AM
 -- Server version: 5.1.49
 -- PHP Version: 5.3.3-1ubuntu9.3
 
@@ -18,7 +18,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `aeolus`
 --
-DROP DATABASE `aeolus`;
+DROP DATABASE IF EXISTS `aeolus`;
 CREATE DATABASE `aeolus` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `aeolus`;
 
@@ -28,24 +28,25 @@ USE `aeolus`;
 -- Table structure for table `incidents`
 --
 
-DROP TABLE IF EXISTS `incidents`;
 CREATE TABLE IF NOT EXISTS `incidents` (
   `title` varchar(50) NOT NULL,
   `description` text NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `latitude` float NOT NULL,
-  `longitude` float NOT NULL,
+  `latitude` float DEFAULT NULL,
+  `longitude` float DEFAULT NULL,
   `verified` tinyint(1) NOT NULL,
+  `twitter_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=107 ;
 
 --
 -- Dumping data for table `incidents`
 --
 
-INSERT INTO `incidents` (`title`, `description`, `id`, `latitude`, `longitude`, `verified`) VALUES
-('Testtitle', 'This is the test description', 1, -34.397, 150.644, 1),
-('trdfg', 'sdg', 2, -35.397, 150.644, 1);
+INSERT INTO `incidents` (`title`, `description`, `id`, `latitude`, `longitude`, `verified`, `twitter_id`) VALUES
+('Tornado', 'A tornado is tearing through the southern suburbs', 10, -27.6914, 153.127, 0, NULL),
+('Fire', 'There is a fire in brisbane city', 8, -27.5454, 152.924, 1, NULL),
+('Flood', 'there is a flood in northern brisbane', 9, -27.3445, 152.993, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -53,7 +54,6 @@ INSERT INTO `incidents` (`title`, `description`, `id`, `latitude`, `longitude`, 
 -- Table structure for table `user_incident`
 --
 
-DROP TABLE IF EXISTS `user_incident`;
 CREATE TABLE IF NOT EXISTS `user_incident` (
   `user_id` int(11) NOT NULL,
   `incident_id` int(11) NOT NULL,
@@ -65,8 +65,10 @@ CREATE TABLE IF NOT EXISTS `user_incident` (
 --
 
 INSERT INTO `user_incident` (`user_id`, `incident_id`) VALUES
-(1, 1),
-(1, 2);
+(1, 10),
+(6, 1),
+(7, 10),
+(8, 10);
 
 -- --------------------------------------------------------
 
@@ -74,7 +76,6 @@ INSERT INTO `user_incident` (`user_id`, `incident_id`) VALUES
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
@@ -84,11 +85,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `clock_in_time` bigint(20) DEFAULT NULL,
   `clock_out_time` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `salt`, `role`, `clock_in_time`, `clock_out_time`) VALUES
-(1, 'admin', '45d0122d11b30012eb0111b09181712f16620a7a', 'ce8d96d579d389e783f95b3772785783ea1a9854', 'admin', 1304388834, 1304388833);
+(1, 'admin', '45d0122d11b30012eb0111b09181712f16620a7a', 'ce8d96d579d389e783f95b3772785783ea1a9854', 'admin', 1304573907, 1304988341),
+(7, 'bill cunnigham - fireman', '45d0122d11b30012eb0111b09181712f16620a7a', 'ce8d96d579d389e783f95b3772785783ea1a9854', 'field_personell', NULL, NULL),
+(8, 'james lear - policeman', '', '', 'guest', NULL, NULL),
+(10, 'chleo tank - ambulance attendant', '', '', 'field_personell', NULL, NULL);
