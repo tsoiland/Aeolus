@@ -17,6 +17,13 @@ abstract class Application_Model_AbstractMapper
     
  	public function save($model)
  	{
+ 		if(is_array($model)) {
+ 			foreach ($model as $m) {
+ 				$this->save($m);
+ 			}
+ 			return;
+ 		}
+ 		
     	$data = $this->createDataArray($model);
     	
     	if (null === ($id = $model->getId())) {

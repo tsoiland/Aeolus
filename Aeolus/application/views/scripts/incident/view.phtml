@@ -21,6 +21,8 @@
 	<a href="<?php echo $url ?>
 		">Verify incident</a>
 <?php endif;?>
-<div id="map-label">Location </div>
-<div id="map_canvas"></div>
+<?php if($this->model->getLatitude() && $this->model->getLongitude()) :?>
+	<div id="map-label">Location </div>
+	<div id="map_canvas"></div>
+<?php endif;?>
 </div>

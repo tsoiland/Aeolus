@@ -8,47 +8,70 @@ class Application_Model_Incident
 	protected $_latitude;
 	protected $_longitude;
 	protected $_verified;
+	protected $_twitterId;
 	
-	public function __set($name, $value) {
+	public function __set($name, $value) 
+	{
 		
 	}
-	public function __get($name) {
+	public function __get($name) 
+	{
 		
 	}
-	public function getTitle() {
+	public function getTitle() 
+	{
 		return $this->_title;
 	}
-	public function setTitle($value) {
+	public function setTitle($value) 
+	{
 		$this->_title = $value;
 	}
-	public function getDescription() {
+	public function getDescription() 
+	{
 		return $this->_description;
 	}
-	public function setDescription($value) {
+	public function setDescription($value) 
+	{
 		$this->_description = $value;
 	}
-	public function getId() {
+	public function getId() 
+	{
 		return $this->_id;
 	}
-	public function setId($value) {
+	public function setId($value) 
+	{
 		$this->_id = $value;
 	}
-	public function getLatitude() {
+	public function getLatitude() 
+	{
 		return $this->_latitude;
 	}
-	public function setLatitude($value) {
+	public function setLatitude($value) 
+	{
 		$this->_latitude = $value;
 	}
-	public function getLongitude() {
+	public function getLongitude() 
+	{
 		return $this->_longitude;
 	}
-	public function setLongitude($value) {
+	public function setLongitude($value) 
+	{
 		$this->_longitude = $value;
 	}
-	public function getVerified() {
+	public function getVerified() 
+	{
 		return $this->_verified;
 	}
-	public function setVerified($value) {
+	public function setVerified($value) 
+	{
 		$this->_verified = $value;
+	}
+	public function setTwitterId($value)
+	{
+		$this->_twitterId = $value;
+	}
+	public function getTwitterId()
+	{
+		return $this->_twitterId;
 	}
 }

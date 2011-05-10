@@ -192,7 +192,6 @@ class IncidentController extends Zend_Controller_Action
 					}
 				}
 	        }
-	        //die(print_r($_POST, true));
 	        
 	        $this->_helper->flashMessenger()->addMessage('Personnel assignment saved.');
             $this->_helper->redirector->gotoUrlAndExit('incident/index');
@@ -216,5 +215,19 @@ class IncidentController extends Zend_Controller_Action
 	{
        	return new Application_Form_Incident();
 	}
+
+    public function importtwitterAction() 
+    {
+    	$twitter = new Application_Model_TwitterMapper();
+    	$incidents = $twitter->fetchAll();
+    	$this->view->number_of_results = count($incidents);
+    	
+    	$mapper = new Application_Model_IncidentMapper();
+    	$twitter->eliminateDuplicates($incidents, $mapper);
+    	$this->view->number_of_unique_results = count($incidents);
+    	
+    	$this->view->number_of_duplicates_eliminated = $this->view->number_of_results - $this->view->number_of_unique_results;
+    	$mapper->save($incidents);
+    }
 }
 
