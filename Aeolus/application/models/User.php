@@ -7,6 +7,9 @@ class Application_Model_User
 	protected $_role;
 	protected $_clock_in_time;
 	protected $_clock_out_time;
+	protected $_password;
+	protected $_salt;
+	protected $_realname;
 
 	public function getId() 
 	{
@@ -79,5 +82,29 @@ class Application_Model_User
 		}
 		return 'Not clocked in';
 	}
+	public function getSalt() 
+	{
+		return $this->_salt;
+	}
+	public function setSalt($value)
+	{
+		$this->_salt = $value;
+	}  
+	public function setPassword($value) 
+	{
+		$config_params = Zend_Registry::get('config_module');
+		$salt = $config_params['dfg']['salt'];
+		$this->_password = sha1($value.$salt);
+	}
+	public function getHashedPassword()
+	{
+		return $this->_password;
+	}
+	public function getRealName()
+	{
+		return $this->_realname;
+	}
+	public function setRealName($value) {
+		$this->_realname = $value;
+	}
 }
-

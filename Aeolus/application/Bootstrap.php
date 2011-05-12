@@ -12,6 +12,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         require_once '/opt/zend/apache2/htdocs/aeolus/application/controllers/AuthPlugin.php';
         $frontController = Zend_Controller_Front::getInstance();
 		$frontController->registerPlugin(new AuthPlugin());
+		
+		Zend_Registry::set('config_module', $this->getOptions());
         
     }
 	    
@@ -19,7 +21,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	{
 		$acl = new Zend_Acl();
 		
-		$roles  = array('admin', 'guest', 'field_personel');
+		$roles  = array('admin', 'guest', 'field_personnel', 'public_officials');
 		
 		// Controller script names. You have to add all of them if credential check
 		// is global to your application.
@@ -32,13 +34,23 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		    $acl->add(new Zend_Acl_Resource($controller));
 		}
 		
-		// Here comes credential definiton for admin user.
-		$acl->allow('admin'); // Has access to everything.
+		$acl->allow('admin'); 
+		//$acl->deny('admin', 'user');
 		
-		// Here comes credential definition for normal user.
-		$acl->allow('guest'); // Has access to everything...
-		$acl->deny('guest', 'incident'); // ... except the admin controller.
-		$acl->deny('guest', 'user');
+		$acl->deny('guest');
+		$acl->allow('guest', 'index');
+		$acl->allow('guest', 'auth');
+		
+		$acl->deny('public_officials');
+		$acl->allow('public_officials', 'index');
+		$acl->allow('public_officials', 'auth');
+		$acl->allow('public_officials', 'incident');
+		
+		$acl->deny('field_personnel');
+		$acl->allow('field_personnel', 'index');
+		$acl->allow('field_personnel', 'auth');
+		$acl->allow('field_personnel', 'incident');
+		
 		
 		// Finally I store whole ACL definition to registry for use
 		// in AuthPlugin plugin.

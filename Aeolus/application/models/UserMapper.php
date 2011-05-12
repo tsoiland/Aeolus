@@ -8,15 +8,20 @@ class Application_Model_UserMapper extends Application_Model_AbstractMapper
     {
     	 $data = array(
             'username'   => $model->getUsername(),
+    	 	'realname' => $model->getRealName(),
             'role' => $model->getRole()
         );
+        
+        $password = $model->getHashedPassword();
+    	if (!empty($password))
+    		$data['password'] = $password;
     	
     	$clock_in_time = $model->getClockInTime();
         if (!empty($clock_in_time)) {
         	$data['clock_in_time'] = $clock_in_time;
         }
         
-    	$clock_out_time = $model->getClockOutTime();
+        $clock_out_time = $model->getClockOutTime();
         if (!empty($clock_out_time)) {
         	$data['clock_out_time'] = $clock_out_time;
         }
@@ -29,6 +34,9 @@ class Application_Model_UserMapper extends Application_Model_AbstractMapper
     	$model = new Application_Model_User();
         $model->setId($row->id);
 	    $model->setUsername($row->username);
+	    $model->setRealName($row->realname);
+	    $model->setPassword($row->password);
+	    $model->setSalt($row->salt);
 	    $model->setRole($row->role);
 	    if(!empty($row->clock_in_time))
 	    	$model->setClockInTime($row->clock_in_time);

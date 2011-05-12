@@ -1,1 +1,4 @@
-Welcome to Aeolus. Please use the menu on the top right.
+<?php foreach ($this->models as $model): ?>
+	<h1><?php echo $model->getTitle();?></h1>
+	<span class="details"><?php echo $model->getDescription();?></span><br />
+<?php endforeach;?>

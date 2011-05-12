@@ -1,5 +1,7 @@
 <?php
-
+/*
+ *  Automatically created by zend project generation script.
+ */
 class ErrorController extends Zend_Controller_Action
 {
 

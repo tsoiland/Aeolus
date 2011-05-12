@@ -11,7 +11,8 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
             'description' => $model->getDescription(),
     		'latitude' => $model->getLatitude(),
     		'longitude' => $model->getLongitude(),
-    		'twitter_id' => $model->getTwitterId()
+    		'twitter_id' => $model->getTwitterId(),
+    	 	'sensitive_description' => $model->getSensitiveDescription()
         );
         $verified = $model->getVerified();
         if (!empty($verified)) {
@@ -30,6 +31,7 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
 		$model->setLongitude($row->longitude);
 		$model->setVerified($row->verified);
 		$model->setTwitterId($row->twitter_id);
+		$model->setSensitiveDescription($row->sensitive_description);
 	    return $model;
     }
 
@@ -95,5 +97,17 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
     	
     	return !empty($rows);
     }
+    public function fetchPublicIncidents() 
+    {
+    	$sql = "SELECT * FROM incidents WHERE verified = 1";
+    	$rows = $this->getDbTable()->getAdapter()->fetchAll($sql);
+    	
+    	$models = array();
+    	foreach($rows as $row) {
+    		$models[] = $this->createAndPopulateModelFromArray($row);
+    	}
+    	return $models;
+    }
+    
 }
 ?>

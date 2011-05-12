@@ -9,6 +9,7 @@ class Application_Model_Incident
 	protected $_longitude;
 	protected $_verified;
 	protected $_twitterId;
+	protected $_sensitiveDescription;
 	
 	public function __set($name, $value) 
 	{
@@ -73,5 +74,13 @@ class Application_Model_Incident
 	public function getTwitterId()
 	{
 		return $this->_twitterId;
+	}
+	public function setSensitiveDescription($value)
+	{
+		$this->_sensitiveDescription = $value;
+	}
+	public function getSensitiveDescription()
+	{
+		return $this->_sensitiveDescription;
 	}
 }

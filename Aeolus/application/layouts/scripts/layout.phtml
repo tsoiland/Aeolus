@@ -16,6 +16,11 @@
 		<div id="midcontainer">
 			<div id="left">
 				<a href="<?php echo $this->url(
+			            array('controller'=>'index', 'action'=>'index'),
+			            'default',
+			            true) ?>">Home</a>
+			            <br />
+			    <a href="<?php echo $this->url(
 			            array('controller'=>'incident', 'action'=>'add'),
 			            'default',
 			            true) ?>">Report Incident</a>
@@ -44,6 +49,11 @@
 			            array('controller'=>'incident', 'action'=>'importtwitter'),
 			            'default',
 			            true) ?>">Import from twitter</a>
+			              <br />
+			        <a href="<?php echo $this->url(
+			            array('controller'=>'incident', 'action'=>'rss'),
+			            'default',
+			            true) ?>">RSS feed</a>
 			              <br />
 			           <?php echo $this->loggedInAs(); ?> 
 			</div>

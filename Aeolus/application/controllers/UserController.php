@@ -2,18 +2,18 @@
 
 class UserController extends Zend_Controller_Action
 {
-
-    public function init()
-    {
-        /* Initialize action controller here */
-    }
-
+	/*
+	 *  Lists all users.
+	 */
     public function indexAction()
     {
         $mapper = new Application_Model_UserMapper();
         $this->view->models = $mapper->fetchAll();
     }
 
+    /*
+     *  Shows, and handles postback for, add user form.
+     */
     public function addAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -40,7 +40,10 @@ class UserController extends Zend_Controller_Action
         
         $this->view->form = $this->getForm();
     }
-
+	
+    /*
+     *  Shows and handles postback for edit user form.
+     */
     public function editAction()
     {
         // Get incident id from url.
@@ -74,10 +77,14 @@ class UserController extends Zend_Controller_Action
 		$data_array = Application_Model_UserMapper::createDataArray($model);
 		
 		$this->view->form = $this->getForm();
+		unset($data_array['password']);
 		$this->view->form->populate($data_array);
         $this->view->jsInitParameters = "'edit'";
     }
 
+    /*
+     *  Displays one incident.
+     */
 	public function viewAction()
     {
         // Get incident id from url.
@@ -88,6 +95,9 @@ class UserController extends Zend_Controller_Action
         $this->view->model = $mapper->find($id);
     }
 	
+    /*
+     *  Displays a users personal screen.
+     */
     public function myhomeAction() 
     {
     	// Get incidents
@@ -97,6 +107,10 @@ class UserController extends Zend_Controller_Action
         $this->view->user = $this->getLoggedInUser();
         
     }
+    
+    /*
+     *  Clock currently logged in user in.
+     */
     public function clockinAction() 
     {
     	$user = $this->getLoggedInUser();
@@ -107,6 +121,10 @@ class UserController extends Zend_Controller_Action
     	$this->_helper->flashMessenger()->addMessage('You were successfully clocked in.');
         $this->_helper->redirector->gotoUrlAndExit('user/myhome');
     }
+    
+    /*
+     *  Clock currently logged in user out.
+     */
     public function clockoutAction() 
     {
     	$user = $this->getLoggedInUser();
@@ -117,6 +135,10 @@ class UserController extends Zend_Controller_Action
     	$this->_helper->flashMessenger()->addMessage('You were successfully clocked out.');
     	$this->_helper->redirector->gotoUrlAndExit('user/myhome');
     }
+    
+    /*
+     *  Delete a user.
+     */
     public function deleteAction() 
     {
     	$id = $this->_request->getParam('id');
@@ -131,11 +153,18 @@ class UserController extends Zend_Controller_Action
     	}
     	$this->_helper->redirector->gotoUrlAndExit('user');
     }
+    
+    /*
+     *  Creation method for user form.
+     */
 	private function getForm() 
 	{
        	return new Application_Form_User();
 	}
 	
+	/*
+	 *  Returns the logged in user.
+	 */
 	private function getLoggedInUser()
 	{
 		$auth = Zend_Auth::getInstance();

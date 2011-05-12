@@ -2,17 +2,19 @@
 
 class IndexController extends Zend_Controller_Action
 {
-
-    public function init()
+	/*
+	 *  Shows a list of incidents available to the public.
+	 */
+	public function indexAction()
     {
-        /* Initialize action controller here */
+        $mapper = new Application_Model_IncidentMapper();
+        $this->view->models = $mapper->fetchPublicIncidents();
     }
-
-    public function indexAction()
+    
+    /*
+     *  Landing page used for redirects that only needs to show flash message.
+     */
+	public function emptyAction()
     {
-        // action body
     }
-
-
 }
-

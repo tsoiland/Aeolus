@@ -16,13 +16,28 @@ class Application_Form_User extends Zend_Form
             'required'   => true,
             'label'      => 'Username:',
         ));
+        $this->addElement('text', 'password', array(
+            'validators' => array(
+                array('StringLength', false, array(0, 50)),
+            ),
+            'required'   => true,
+            'label'      => 'Password:',
+        ));
+        $this->addElement('text', 'realname', array(
+            'filters'    => array('StringTrim'),
+            'validators' => array(
+                array('StringLength', false, array(0, 50)),
+            ),
+            'required'   => true,
+            'label'      => 'Real Name:',
+        ));
         $this->addElement('select', 'role', array(
             'required'   => true,
             'label'      => 'role:',
 	        'multiOptions' => array(
 		        'guest' => 'Anonymous User',
 		        'admin' => 'Administrator',
-		        'field_personell' => 'Field Personell'
+		        'field_personnel' => 'Field Personnel'
 		    )
         ));
         $this->addElement('submit', 'user', array(

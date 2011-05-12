@@ -2,12 +2,6 @@
 
 class IncidentController extends Zend_Controller_Action
 {
-
-    public function init()
-    {
-        /* Initialize action controller here */
-    }
-
     /*
      * 	List all incidents
      */
@@ -16,6 +10,7 @@ class IncidentController extends Zend_Controller_Action
     	$mapper = new Application_Model_IncidentMapper();
         $this->view->models = $mapper->fetchAll();
     }
+    
     /*
      * 	List all incidents on map
      */
@@ -24,22 +19,25 @@ class IncidentController extends Zend_Controller_Action
     	$mapper = new Application_Model_IncidentMapper();
         $this->view->models = $mapper->fetchAll();
         
-        print '<script type="text/javascript">
-        	function addMarkers() {';
-        foreach($this->view->models as $model) { ?>
-        	addMarker("<?php print $model->getTitle() ?>" ,
-			        	<?php print $model->getLatitude() ?>,
-			        	<?php print $model->getLongitude() ?>);    
-    	<?php }
+        // Print javascript to add markers to the map.
+        print '<script type="text/javascript">function addMarkers() {';
+        foreach($this->view->models as $model) { 
+        	$title = $model->getTitle();
+        	$latitude = ($model->getLatitude()) ? $model->getLatitude(): 'null';
+        	$longitude = ($model->getLongitude()) ? $model->getLongitude(): 'null';
+        	print "addMarker('$title',$latitude, $longitude);\n" ;   
+    	}
     	print '}</script>';
     	
     	$this->view->jsInitParameters = "'index'";
     }
+    
     /*
      *  Show form for reporting incidents
      */
 	public function addAction()
     {
+    	// If request is a POST, handle it. Otherwise, just show the form.
         if ($this->getRequest()->isPost()) {
 	        $form = $this->getForm();
 	        
@@ -64,14 +62,20 @@ class IncidentController extends Zend_Controller_Action
      	}
         
         $this->view->form = $this->getForm();
+        
+        // Tell the javascript initialization method to show the fresh map without markers.
         $this->view->jsInitParameters = "'add'";
     }
     
+    /*
+     *  Show form to edit action and handle submit.
+     */
 	public function editAction() 
 	{
 		// Get incident id from url.
     	$id = $this->_request->getParam('id');
     	
+		// If request is a POST, handle it. Otherwise, just show the form.
 		if ($this->getRequest()->isPost()) {
 	        $form = $this->getForm();
 	        
@@ -81,6 +85,7 @@ class IncidentController extends Zend_Controller_Action
 	            return $this->render('form');
 	        }
 	        
+	        // Construct and populate the model.
 	        $values = $form->getValues();
 	        $values['id'] = $id;
 	        $model = Application_Model_IncidentMapper::createAndPopulateModelFromArray($values);
@@ -93,24 +98,26 @@ class IncidentController extends Zend_Controller_Action
             $this->_helper->redirector->gotoUrlAndExit('incident/view/id/' . $id);
 	        
 		}
-		
     	
+		// Get data for form
 		$mapper = new Application_Model_IncidentMapper();
 		$model = $mapper->find($id);
-		$data_array = Application_Model_IncidentMapper::createDataArray($model);
 		
+		// Prepare for and enter into form.
+		$data_array = Application_Model_IncidentMapper::createDataArray($model);
 		$this->view->form = $this->getForm();
 		$this->view->form->populate($data_array);
 		
-		// BEWARE - here be javascript hack
-		print '<script type="text/javascript">
-        	function addMarkerForEdit() {'; ?>
-        	return addMarker("<?php print $model->getTitle() ?>" ,
-			        	<?php print $model->getLatitude() ?>,
-			        	<?php print $model->getLongitude() ?>,
-			        	true);    
-    	<?php 
-    	print '}</script>';
+		// Print javascript to add markers to the map.
+        $title = $model->getTitle();
+        $latitude = ($model->getLatitude()) ? $model->getLatitude(): 'null';
+        $longitude = ($model->getLongitude()) ? $model->getLongitude(): 'null';
+        print "'<script type='text/javascript'>
+        		function addMarkerForEdit() {
+        			addMarker('$title',$latitude, $longitude, true);\n
+    			}
+    		   </script>";
+        // Tell the javascript initialization method to show the edit map with the movable marker.
         $this->view->jsInitParameters = "'edit'";
 	}
 	
@@ -208,6 +215,7 @@ class IncidentController extends Zend_Controller_Action
 		$form->setDefaults($data);
 		$this->view->form = $form;	
 	}
+	
     /*
      *  Construct the form for reporting incidents
      */
@@ -228,6 +236,28 @@ class IncidentController extends Zend_Controller_Action
     	
     	$this->view->number_of_duplicates_eliminated = $this->view->number_of_results - $this->view->number_of_unique_results;
     	$mapper->save($incidents);
+    }
+    public function rssAction()
+    {
+		$feed = new Zend_Feed_Writer_Feed;
+		$feed->setTitle('Aeolus Incidents');
+		$feed->setLink('http://localhost:10088/aeolus/public/');
+		$feed->setFeedLink('http://localhost:10088/aeolus/public/incident/rss', 'atom');
+		$feed->setDescription('Incidents from the Aeolus disaster management system.');
+
+		$mapper = new Application_Model_IncidentMapper();
+        $models = $mapper->fetchAll();
+        
+        foreach( $models as $model) {
+			$entry = $feed->createEntry();
+			$entry->setTitle($model->getTitle());
+			$entry->setLink("http://localhost:10088/aeolus/public/incident/view/id/".$model->getId());
+			$entry->setDescription($model->getDescription());
+			$feed->addEntry($entry);
+        }	
+		$this->view->out = $feed->export('rss');
+		
+		$this->_helper->layout()->disableLayout();
     }
 }
 
