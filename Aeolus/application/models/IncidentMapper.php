@@ -15,8 +15,9 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
     	 	'sensitive_description' => $model->getSensitiveDescription()
         );
         $verified = $model->getVerified();
-        if (!empty($verified)) {
-        	$data['verified'] = $model->getVerified();
+
+        if ($verified == 0 || $verified == 1) {
+        	$data['verified'] = $model->getVerified();	
         }
         
         return $data;

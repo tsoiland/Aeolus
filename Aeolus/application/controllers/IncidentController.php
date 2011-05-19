@@ -146,20 +146,18 @@ class IncidentController extends Zend_Controller_Action
         $this->view->jsInitParameters = "'view'";/**/
     }
     
+
     public function verifyAction()
     {
-    	// Get incident id from url.
-    	$id = $this->_request->getParam('id');
-    	
-    	// Fetch incident 
-        $mapper = new Application_Model_IncidentMapper();
-        $model = $mapper->find($id);
-        
-        $model->setVerified(TRUE);
-        $mapper->save($model);
-        $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
-		$redirector->gotoUrlAndExit("/incident/view/id/$id");
+    	$this->setVerification(TRUE);
     }
+
+    public function unverifyAction()
+    {
+    	
+    	$this->setVerification(0);
+    }
+    
     
     public function deleteAction() 
     {
@@ -215,16 +213,7 @@ class IncidentController extends Zend_Controller_Action
 		$form->setDefaults($data);
 		$this->view->form = $form;	
 	}
-	
-    /*
-     *  Construct the form for reporting incidents
-     */
-	private function getForm() 
-	{
-       	return new Application_Form_Incident();
-	}
-
-    public function importtwitterAction() 
+	public function importtwitterAction() 
     {
     	$twitter = new Application_Model_TwitterMapper();
     	$incidents = $twitter->fetchAll();
@@ -258,6 +247,31 @@ class IncidentController extends Zend_Controller_Action
 		$this->view->out = $feed->export('rss');
 		
 		$this->_helper->layout()->disableLayout();
+    }
+    
+    /*
+     *  Construct the form for reporting incidents
+     */
+	private function getForm() 
+	{
+       	return new Application_Form_Incident();
+	}
+
+    
+	private function setVerification($status)
+    {
+    	// Get incident id from url.
+    	$id = $this->_request->getParam('id');
+    	
+    	// Fetch incident 
+        $mapper = new Application_Model_IncidentMapper();
+        $model = $mapper->find($id);
+        $model->setVerified($status);
+        
+        $mapper->save($model);
+        
+        $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
+		$redirector->gotoUrlAndExit("/incident/view/id/$id");
     }
 }
 

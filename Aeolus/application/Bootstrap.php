@@ -49,7 +49,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$acl->deny('field_personnel');
 		$acl->allow('field_personnel', 'index');
 		$acl->allow('field_personnel', 'auth');
-		$acl->allow('field_personnel', 'incident');
+		$acl->allow('field_personnel', 'incident', 'index');
+		$acl->allow('field_personnel', 'index');
 		
 		
 		// Finally I store whole ACL definition to registry for use

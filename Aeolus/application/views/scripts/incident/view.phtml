@@ -21,6 +21,12 @@ Sensitive Description: <span class="sensitive_description"><?php echo $this->mod
 		'default', true);?>
 	<a href="<?php echo $url ?>
 		">Verify incident</a>
+<?php else :?>
+	<?php $url = $this->url(
+		array('controller'=>'incident', 'action'=>'unverify', 'id' => $this->model->getId()),
+		'default', true);?>
+	<a href="<?php echo $url ?>
+		">Unverify incident</a>
 <?php endif;?>
 <?php if($this->model->getLatitude() && $this->model->getLongitude()) :?>
 	<div id="map-label">Location </div>
