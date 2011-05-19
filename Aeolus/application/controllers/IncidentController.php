@@ -146,19 +146,25 @@ class IncidentController extends Zend_Controller_Action
         $this->view->jsInitParameters = "'view'";/**/
     }
     
-
+	/*
+	 *  Verify an incident
+	 */
     public function verifyAction()
     {
     	$this->setVerification(TRUE);
     }
 
+    /*
+     *  Unverify an incident
+     */
     public function unverifyAction()
     {
-    	
     	$this->setVerification(0);
     }
     
-    
+    /* 
+     *  Delete an incident
+     */
     public function deleteAction() 
     {
     	$id = $this->_request->getParam('id');
@@ -173,6 +179,10 @@ class IncidentController extends Zend_Controller_Action
     	}
     	$this->_helper->redirector->gotoUrlAndExit('incident');
     }
+    
+    /* 
+     * Show table of personnel assigned to an incident
+     */
     public function viewassignedpersonnelAction()
 	{
 		$id = $this->_request->getParam('id');
@@ -180,6 +190,9 @@ class IncidentController extends Zend_Controller_Action
         $this->view->models = $mapper->getUsersAssignedToIncident($id);
 	}
 	
+	/*
+	 *  Display a list of checkboxes for the user to assign personnel to an incident.
+	 */
 	public function assignpersonnelAction()
 	{
 		 $incident_id = $this->_request->getParam('id');
@@ -193,9 +206,10 @@ class IncidentController extends Zend_Controller_Action
 	            return $this->render('form');
 	        }
 	        
-    		$mapper = new Application_Model_IncidentMapper();
-	        foreach ($_POST as $user_id => $assigned) {
+	        // Loop through form result and update database
+    		foreach ($_POST as $user_id => $assigned) {
 				if(is_integer($user_id)) {
+					$mapper = new Application_Model_IncidentMapper();
 					if($assigned) {
 						$mapper->assignUserToIncident($user_id, $incident_id);	
 					} else {
@@ -204,54 +218,76 @@ class IncidentController extends Zend_Controller_Action
 				}
 	        }
 	        
+	        // Flash and redirect
 	        $this->_helper->flashMessenger()->addMessage('Personnel assignment saved.');
             $this->_helper->redirector->gotoUrlAndExit('incident/index');
      	}
         
+        // Fetch all users
         $mapper = new Application_Model_UserMapper();
         $users = $mapper->fetchAll();
         
+        // Fetch data for form
         $mapper = new Application_Model_IncidentMapper();
-        
         $data = $mapper->getAssignUserToIncidentFormData($incident_id);
         
+        // Create the form
 		$form = new Application_Form_AssignPersonnel($users);
 		$form->setDefaults($data);
 		$this->view->form = $form;	
 	}
+	
+	/*
+	 * Imports new tweets from the #AeolusDMS twitter tag.
+	 */
 	public function importtwitterAction() 
     {
+    	// Fetch incidents from twitter and count them.
     	$twitter = new Application_Model_TwitterMapper();
     	$incidents = $twitter->fetchAll();
     	$this->view->number_of_results = count($incidents);
     	
+    	// Delete tweets that has already been imported from the $incidents
+    	// array by reference and recount them.
     	$mapper = new Application_Model_IncidentMapper();
     	$twitter->eliminateDuplicates($incidents, $mapper);
     	$this->view->number_of_unique_results = count($incidents);
     	
-    	$this->view->number_of_duplicates_eliminated = $this->view->number_of_results - $this->view->number_of_unique_results;
+    	// Save the new incidents in the database
     	$mapper->save($incidents);
+    	
+    	// Calculate number of duplicates for display.
+    	$this->view->number_of_duplicates_eliminated = $this->view->number_of_results - $this->view->number_of_unique_results;
     }
+    
+    /*
+     * Generates an rss feed of incidents.
+     */
     public function rssAction()
     {
+    	// Create the feed
 		$feed = new Zend_Feed_Writer_Feed;
 		$feed->setTitle('Aeolus Incidents');
 		$feed->setLink('http://localhost:10088/aeolus/public/');
 		$feed->setFeedLink('http://localhost:10088/aeolus/public/incident/rss', 'atom');
 		$feed->setDescription('Incidents from the Aeolus disaster management system.');
 
+		// Get the incidents
 		$mapper = new Application_Model_IncidentMapper();
         $models = $mapper->fetchAll();
         
+        // Loop through incidents and create feed entries.
         foreach( $models as $model) {
 			$entry = $feed->createEntry();
 			$entry->setTitle($model->getTitle());
 			$entry->setLink("http://localhost:10088/aeolus/public/incident/view/id/".$model->getId());
 			$entry->setDescription($model->getDescription());
 			$feed->addEntry($entry);
-        }	
+        }
+        // Generate the xml output. It will be printed in the view.	
 		$this->view->out = $feed->export('rss');
 		
+		// We don't want anything else than the xml output for this, so don't wrap it in the layout.
 		$this->_helper->layout()->disableLayout();
     }
     
@@ -263,7 +299,9 @@ class IncidentController extends Zend_Controller_Action
        	return new Application_Form_Incident();
 	}
 
-    
+    /*
+     *  Support method for verifyAction and unverifyAction.
+     */
 	private function setVerification($status)
     {
     	// Get incident id from url.
@@ -272,10 +310,12 @@ class IncidentController extends Zend_Controller_Action
     	// Fetch incident 
         $mapper = new Application_Model_IncidentMapper();
         $model = $mapper->find($id);
-        $model->setVerified($status);
         
+        // Update and save
+        $model->setVerified($status);
         $mapper->save($model);
         
+        // Flash and redirect
         $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('Redirector');
 		$redirector->gotoUrlAndExit("/incident/view/id/$id");
     }

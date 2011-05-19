@@ -71,14 +71,17 @@ class UserController extends Zend_Controller_Action
 	        
 		}
 		
-    	
+		// Fetch data for form
 		$mapper = new Application_Model_UserMapper();
 		$model = $mapper->find($id);
 		$data_array = Application_Model_UserMapper::createDataArray($model);
 		
+		// Create, populate and remove password from, form
 		$this->view->form = $this->getForm();
 		unset($data_array['password']);
 		$this->view->form->populate($data_array);
+		
+		// Signal to javascript component about which map to display
         $this->view->jsInitParameters = "'edit'";
     }
 
@@ -113,11 +116,15 @@ class UserController extends Zend_Controller_Action
      */
     public function clockinAction() 
     {
+    	// Get the user
     	$user = $this->getLoggedInUser();
+    	
+    	// Update and save
     	$user->clockIn();
     	$mapper = new Application_Model_UserMapper();
     	$mapper->save($user);
-    		
+
+    	// Flash and redirect
     	$this->_helper->flashMessenger()->addMessage('You were successfully clocked in.');
         $this->_helper->redirector->gotoUrlAndExit('user/myhome');
     }
@@ -127,11 +134,15 @@ class UserController extends Zend_Controller_Action
      */
     public function clockoutAction() 
     {
+    	// Get the user
     	$user = $this->getLoggedInUser();
+    	
+    	// Update and save
     	$user->clockOut();
     	$mapper = new Application_Model_UserMapper();
     	$mapper->save($user);
     	
+    	// Flash and redirect
     	$this->_helper->flashMessenger()->addMessage('You were successfully clocked out.');
     	$this->_helper->redirector->gotoUrlAndExit('user/myhome');
     }
