@@ -1,0 +1,11 @@
+The following personnel has been assigned to this incident:
+<table id="index">
+	<tr><td>Id</td><td>Username</td><td>Name</td></tr>
+	<?php foreach ($this->models as $model):?>
+		<tr>
+		<td><?php echo $this->escape($model->getId())?></td>
+		<td><?php echo $this->escape($model->getUsername())?></td>
+		<td><?php echo $this->escape($model->getRealName())?></td>
+		
+	<?php endforeach ?>
+</table>

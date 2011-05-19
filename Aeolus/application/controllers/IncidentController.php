@@ -173,6 +173,12 @@ class IncidentController extends Zend_Controller_Action
     	}
     	$this->_helper->redirector->gotoUrlAndExit('incident');
     }
+    public function viewassignedpersonnelAction()
+	{
+		$id = $this->_request->getParam('id');
+		$mapper = new Application_Model_IncidentMapper();
+        $this->view->models = $mapper->getUsersAssignedToIncident($id);
+	}
 	
 	public function assignpersonnelAction()
 	{

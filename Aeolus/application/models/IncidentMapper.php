@@ -50,7 +50,7 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
     	$sql = "SELECT * 
 				FROM incidents i
 				LEFT JOIN user_incident ui ON ui.incident_id = i.id
-				WHERE ui.user_id =1
+				WHERE ui.user_id =$id
 				LIMIT 0 , 30";
     	$rows = $this->getDbTable()->getAdapter()->fetchAll($sql);
     	$models = array();
@@ -90,6 +90,19 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
     		$data[$row['user_id']] = 1;
     	}
     	return $data;
+    }
+    public function getUsersAssignedToIncident($incident_id) 
+    {
+    	$sql = "SELECT * FROM users u
+    		LEFT JOIN user_incident ui ON ui.user_id = u.id
+    		WHERE ui.incident_id = '$incident_id'";
+    	$rows = $this->getDbTable()->getAdapter()->fetchAll($sql);
+    	
+    	$models = array();
+    	foreach($rows as $row) {
+    		$models[] = Application_Model_UserMapper::createAndPopulateModelFromArray($row);
+    	}
+    	return $models;
     }
     public function twitterIdExists($id)
     {
