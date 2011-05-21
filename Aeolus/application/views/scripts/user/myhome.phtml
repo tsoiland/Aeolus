@@ -1,28 +1,36 @@
-<div id="clock_in_out">
-	<div>status: <?php echo $this->user->getExhaustionStatus(); ?></div>
-	<?php if($this->user->isClockedIn()):?>
-		<a href="<?php echo $this->url(
-            array('controller'=>'user', 'action'=>'clockout'),
-            'default',
-            true) ?>">Clock out</a>
-	<?php else:?>
-		<a href="<?php echo $this->url(
-            array('controller'=>'user', 'action'=>'clockin'),
-            'default',
-            true) ?>">Clock in</a>
-	<?php endif;?>
+<div id="clock_in_out_wrapper">
+	<h2>My status</h2>
+	<div><?php echo $this->user->getExhaustionStatus(); ?></div>
+	<div id="clock_in_out">
+		<?php if($this->user->isClockedIn()):?>
+			<a href="<?php echo $this->url(
+	            array('controller'=>'user', 'action'=>'clockout'),
+	            'default',
+	            true) ?>">Clock out</a>
+		<?php else:?>
+			<a href="<?php echo $this->url(
+	            array('controller'=>'user', 'action'=>'clockin'),
+	            'default',
+	            true) ?>">Clock in</a>
+		<?php endif;?>
+	</div>
 </div>
 
-<table id="index">
-	<tr><td>Id</td><td>Title</td></tr>
-	<?php if(!empty($this->models)): ?>
-		<?php foreach ($this->models as $model):?>
-			<tr><td><?php echo $this->escape($model->getId())?></td>
-			<td><a href="<?php echo $this->url(
-	            array('controller'=>'incident', 'action'=>'view', 'id' => $model->getId()),
-	            'default',
-	            true) ?>"><?php echo $this->escape($model->getTitle())?></a></td>
-	        <td><?php echo ($model->getVerified()) ? 'yes' : 'no' ; ?></td></tr>
-		<?php endforeach ?>
-	<?php endif ?>
-</table>
+<div>
+	<h2>My assigned incidents</h2>
+	<table id="index">
+		<tr><td>Id</td><td>Title</td></tr>
+		<?php if(!empty($this->models)): ?>
+			<?php foreach ($this->models as $model):?>
+				<tr>
+					<td><?php echo $this->escape($model->getId())?></td>
+					<td><a href="<?php echo $this->url(
+			            array('controller'=>'incident', 'action'=>'view', 'id' => $model->getId()),
+			            'default',
+			            true) ?>"><?php echo $this->escape($model->getTitle())?></a></td>
+			        <td><?php echo ($model->getVerified()) ? 'yes' : 'no' ; ?></td>
+		        </tr>
+			<?php endforeach ?>
+		<?php endif ?>
+	</table>
+</div>

@@ -12,7 +12,9 @@ class Application_Model_TwitterMapper
 			$model = new Application_Model_Incident();
 			$model->setTitle(substr($tweet['text'], 0, 50));
 			$model->setDescription($tweet['text']);
-			$model->setTwitterId($tweet['id']); 			
+			$model->setSensitiveDescription($tweet['text']);
+			$model->setTwitterId($tweet['id']); 
+			$model->setVerified(0);			
 			$models[] = $model;
 		}
 		

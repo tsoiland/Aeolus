@@ -88,8 +88,9 @@ class IncidentController extends Zend_Controller_Action
 	        // Construct and populate the model.
 	        $values = $form->getValues();
 	        $values['id'] = $id;
+	 print "dd<pre>".print_r($values,1)."</pre>";
 	        $model = Application_Model_IncidentMapper::createAndPopulateModelFromArray($values);
-
+//die("<pre>".print_r($model,1)."</pre>");
 	        // Save the model.
 	        $mapper = new Application_Model_IncidentMapper();
 	        $mapper->save($model);

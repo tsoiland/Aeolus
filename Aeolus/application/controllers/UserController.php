@@ -55,7 +55,7 @@ class UserController extends Zend_Controller_Action
         	// If validation failed, redisplay form. Also the isValid() method is needed to repopulate $form with posted values.
 	        if (!$form->isValid($_POST)) {
 	            $this->view->form = $form;
-	            return $this->render('form');
+	            return $this->render('edit');
 	        }
 	        
 	        $values = $form->getValues();

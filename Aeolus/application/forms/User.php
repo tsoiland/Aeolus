@@ -20,7 +20,7 @@ class Application_Form_User extends Zend_Form
             'validators' => array(
                 array('StringLength', false, array(0, 50)),
             ),
-            'required'   => true,
+            'required'   => false,
             'label'      => 'Password:',
         ));
         $this->addElement('text', 'realname', array(
@@ -30,6 +30,23 @@ class Application_Form_User extends Zend_Form
             ),
             'required'   => true,
             'label'      => 'Real Name:',
+        ));
+        $this->addElement('text', 'phone_nr', array(
+            'filters'    => array('StringTrim'),
+            'validators' => array(
+                array('StringLength', false, array(0, 10)),
+                
+            ),
+            'required'   => true,
+            'label'      => 'Phone nr:',
+        ));
+        $this->addElement('text', 'location', array(
+            'filters'    => array('StringTrim'),
+            'validators' => array(
+                array('StringLength', false, array(0, 50)),
+            ),
+            'required'   => true,
+            'label'      => 'Location:',
         ));
         $this->addElement('select', 'role', array(
             'required'   => true,

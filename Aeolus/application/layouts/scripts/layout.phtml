@@ -9,9 +9,13 @@
   <?php echo $this->headScript()->appendFile('/aeolus/public/js/google_maps.js') ?>
 </head>
 <body onload="initialize(<?php print $this->jsInitParameters; ?>)">
-    <div id="control">
-		<div id="topleft"/><div id="header">
-			<span class="bannertext">Queensland Disaster System</span>
+    <div id="wrapper">
+		<div id="header">
+			<div id="topleft">
+			</div>
+			<div id="top">
+				<div class="bannertext">Queensland Disaster System</div>
+			</div>
 		</div>
 		<div id="midcontainer">
 			<div id="left">
@@ -58,16 +62,14 @@
 			           <?php echo $this->loggedInAs(); ?> 
 			</div>
 			<div id="middle">
-				<div class="messages">
-					<?php foreach(Zend_Controller_Action_HelperBroker::getStaticHelper('flashMessenger')
-					             ->getMessages() as $message) : ?>
-						<p><?php echo $this->escape($message);?></p>
-					<?php endforeach; ?>
-				</div>
+				<?php foreach(Zend_Controller_Action_HelperBroker::getStaticHelper('flashMessenger')
+				             ->getMessages() as $message) : ?>
+					<div class="messages">
+						<?php echo $this->escape($message);?>
+					</div>
+				<?php endforeach; ?>
 				<?php echo $this->layout()->content ?> 
-			</div>			
-			<div id="right">
-			</div>
+			</div>	
 		</div>
 	</div>
 </body>

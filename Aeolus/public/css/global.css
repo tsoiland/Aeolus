@@ -1,117 +1,105 @@
 @CHARSET "UTF-8";
 body {
-margin:0;
-font-family:arial;
-background:#dadada;
+	font-family:arial;
+	background: url(../images/left.png) #dadada repeat-y -77px;
+	margin: 0;
 }
-#control {
-margin:0px;	
-padding:0;
-}
-
-#disasters {
-margin:20px;	
-}
-
-#index {
-border:1px solid #000;
-}
-
-#index td {
-	
-	padding:14px;
-	padding-top:0px;
-	padding-bottom:0px;
-	}
-	
-#midcontainer {
-	width:80%;
-	}
-	
-	#topleft {
+#topleft {
 	background: url(../images/topleft.png) no-repeat bottom;
-	width:500px;
-	
-		}
-	
-	.bannertext {
-	color:#fafafa;
-	font-size:150%;
-	font-weight:bold;
-	text-shadow:1px 1px 0px #000;
-	}
-
+	width: 378px;
+	float: left;
+}
 #header {
 	background: url(../images/top.png) repeat-x bottom;
-	height:20%;
-	width:800px;
-	margin:0;
-	padding:50px;
-	margin-left:500px;
-	margin-right:0;
 }
-#left {
-	background: url(../images/left.png) repeat-y right;
-	width:516px;
-	float:left;
-	height:100%;
-	position:absolute;
-	color:#fafafa;
+#header, #topleft {
+	height: 120px;
+}
+#midcontainer {
+	
+	min-height: 500px;
+	overflow: hidden;
+}
+#left, #middle {
+	float: left;
+	overflow: hidden;
 }
 
+#left {
+	width: 215px;
+	padding: 20px;
+	color:#fafafa;
+}
+#middle {
+	text-shadow:1px 1px 0px #fafafa;
+	margin-left: 10px;
+}
+.bannertext {
+	color: #fafafa;
+	font-size: 250%;
+	font-weight: bold;
+	text-shadow: 1px 1px 0px #000;
+	padding-top: 20px;
+}
 #left a {
 	text-decoration:none;
 	font-weight:bold;
 	color:#fff;
-	}
-	
-	#left a:hover {
-	text-decoration:underline;
-	}
-	
-#middle {
-	text-shadow:1px 1px 0px #fafafa;
-	padding:20px;
-	background:#dadada;
-	position:absolute;
-	width:auto;
-height:auto;
-	margin-left:321px;
-	float:left;
 }
-
+#left a:hover {
+	text-decoration:underline;
+}
 #middle a {
 	text-shadow:none;
 	color:#a61015;
 	text-decoration:none;
 	font-weight:bold;
-	}
+}
 
 #middle a:hover {
 	text-decoration:underline;
-	}
+}
 
+#index {
+  border:1px solid #000;
+}
+
+#index td {
+	padding:14px;
+	padding-top:0px;
+	padding-bottom:0px;
+}
 .view h1 {
 	color:#a61015;
 	font-weight:bold;
 	text-shadow:1px 1px 0px #fff;
-	}
-	
-	.details {
+}
+.details {
 	font-style:italic;
 	font-size:90%;
-	}
+}
 #map_canvas {
 	height: 500px;
 	width: 578px;
 }
-#login-label {
-	height: 520px;
-}
 #add-incident #map_canvas {
-	/*margin-top: -550px;/**/	
 	margin-left: 40px;
 }
 #edit-incident #map-label, #add-incident #map-label {
-	margin-top: -570px;
+	margin-top: 0px;
+}
+#clock_in_out {
+	margin-bottom: 20px;
+}
+#status_label {
+	font-weight: bold;
+}
+#clock_in_out {
+	margin-top: 5px;
+	margin-left: 80px;
+}
+.messages {
+	background: #ffe500;
+	padding: 4px;
+	padding-top: 1px;	
 }

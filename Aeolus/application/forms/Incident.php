@@ -2,7 +2,6 @@
 
 class Application_Form_Incident extends Zend_Form
 {
-
     public function init()
     {
         $this->setMethod('post');

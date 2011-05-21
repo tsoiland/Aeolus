@@ -9,7 +9,9 @@ class Application_Model_UserMapper extends Application_Model_AbstractMapper
     	 $data = array(
             'username'   => $model->getUsername(),
     	 	'realname' => $model->getRealName(),
-            'role' => $model->getRole()
+            'role' => $model->getRole(),
+            'phone_nr' => $model->getPhoneNr(),
+            'location' => $model->getLocation()
         );
         
         $password = $model->getHashedPassword();
@@ -35,9 +37,13 @@ class Application_Model_UserMapper extends Application_Model_AbstractMapper
         $model->setId($row->id);
 	    $model->setUsername($row->username);
 	    $model->setRealName($row->realname);
-	    $model->setPassword($row->password);
+	    if(!empty($row->password))
+	    	$model->setPassword($row->password);
 	    $model->setSalt($row->salt);
 	    $model->setRole($row->role);
+	    $model->setPhoneNr($row->phone_nr);
+	    $model->setLocation($row->location);
+	    
 	    if(!empty($row->clock_in_time))
 	    	$model->setClockInTime($row->clock_in_time);
 	    if(!empty($row->clock_out_time))

@@ -10,7 +10,9 @@ class Application_Model_User
 	protected $_password;
 	protected $_salt;
 	protected $_realname;
-
+	protected $_phone_nr;
+	protected $_location;
+	
 	public function getId() 
 	{
 		return $this->_id;
@@ -78,7 +80,7 @@ class Application_Model_User
 	public function getExhaustionStatus() 
 	{
 		if ($this->isClockedIn()) {
-			return $this->getClockedInDuration();
+			return "Clocked in for " . $this->getClockedInDuration() . " hours";
 		}
 		return 'Not clocked in';
 	}
@@ -106,5 +108,21 @@ class Application_Model_User
 	}
 	public function setRealName($value) {
 		$this->_realname = $value;
+	}
+	public function getPhoneNr()
+	{
+		return $this->_phone_nr;	
+	}
+	public function setPhoneNr($value)
+	{
+		$this->_phone_nr = $value;
+	}
+	public function getLocation()
+	{
+		return $this->_location;	
+	}
+	public function setLocation($value)
+	{
+		$this->_location = $value;
 	}
 }

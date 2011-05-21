@@ -1,5 +1,6 @@
+<h1>Current Incidents</h1>
 <table id="index">
-	<tr><td>Id</td><td>Title</td></tr>
+	<tr><td>Id</td><td>Title</td><td>Verified</td></tr>
 	<?php foreach ($this->models as $model):?>
 		<tr><td><?php echo $this->escape($model->getId())?></td>
 		<td><a href="<?php echo $this->url(

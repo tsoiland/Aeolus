@@ -12,7 +12,11 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
     		'latitude' => $model->getLatitude(),
     		'longitude' => $model->getLongitude(),
     		'twitter_id' => $model->getTwitterId(),
-    	 	'sensitive_description' => $model->getSensitiveDescription()
+    	 	'sensitive_description' => $model->getSensitiveDescription(),
+    	 	'verify_time' => $model->getVerifyTime(),
+    	 	'first_assignment_time' => $model->getFirstAssignmentTime(),
+			'close_time' => $model->getCloseTime(),
+			'status' => $model->getStatusId(),
         );
         $verified = $model->getVerified();
 
@@ -30,9 +34,19 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
 		$model->setDescription($row->description);
 		$model->setLatitude($row->latitude);
 		$model->setLongitude($row->longitude);
-		$model->setVerified($row->verified);
-		$model->setTwitterId($row->twitter_id);
+		if($row->verified == 0 || $row->verified == 1)
+			$model->setVerified($row->verified);
+		if($row->twitter_id)
+			$model->setTwitterId($row->twitter_id);
 		$model->setSensitiveDescription($row->sensitive_description);
+		if(!empty($row->verify_time))
+			//$model->setVerifyTime($row->verify_time);
+		if($row->first_assignment_time)
+			$model->setFirstAssignmentTime($row->first_assignment_time);
+		if($row->close_time)
+			$model->setCloseTime($row->close_time);
+		$model->setStatus($row->status);
+		die("s<pre>".print_r($row,1)."</pre>");
 	    return $model;
     }
 
