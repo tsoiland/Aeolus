@@ -19,7 +19,10 @@ class Application_Model_Incident
 	public function setValuesFromArray($array)
 	{
 		foreach($array as $key => $value) {
-			$this->$key = $value;
+			if($key == 'status')
+				$this->setStatus($value);
+			else
+				$this->$key = $value;
 		}
 	}
     
@@ -140,7 +143,16 @@ class Application_Model_Incident
 	}
 	public function setStatus($value)
 	{
+		$oldvalue = $this->status;
 		$this->status = $value;
+		
+		// Did the status change?
+		if($oldvalue === '0' || $oldvalue === '1') {
+			if($oldvalue == 1 && $value != 1)
+				$this->setCloseTime(0);
+			else if($oldvalue != 1 && $value == 1)
+				$this->setCloseTime(time());
+		}
 	}
 	public function getStatusId()
 	{

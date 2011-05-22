@@ -69,6 +69,15 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
     	
     	try {
     		$db->query($sql);
+    		
+    		// If the incident doesn't have a time from before, this is the first
+    		// time and we set current time and save.
+    		$model = $this->find($incident_id);
+    		
+    		if($model->getFirstAssignmentTime() == 0) {
+	    		$model->setFirstAssignmentTime(time());
+	    		$this->save($model);
+    		}
     	} catch (Exception $e) {
     	}
     }

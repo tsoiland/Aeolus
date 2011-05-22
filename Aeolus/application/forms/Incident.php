@@ -10,6 +10,14 @@ class Application_Form_Incident extends Zend_Form
        	$this->addElement('textarea', 'sensitive_description', array('label' => 'Sensitive Description'));
        	$this->addElement('hidden', 'longitude');
        	$this->addElement('hidden', 'latitude');
+       	$this->addElement('select', 'status', array(
+            'required'   => true,
+            'label'      => 'Status:',
+	        'multiOptions' => array(
+		        '0' => 'Open',
+		        '1' => 'Closed'
+		    )
+        ));
        	$this->addElement('submit', 'login', array('label' => 'Report'));
     }
 }

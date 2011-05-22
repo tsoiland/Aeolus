@@ -202,12 +202,12 @@ class IncidentController extends Zend_Controller_Action
 		 $incident_id = $this->_request->getParam('id');
     	
 		 if ($this->getRequest()->isPost()) {
-	        $form = $this->getForm();
-	        
+	        $form = new Application_Form_AssignPersonnel($users);
+		
         	// If validation failed, redisplay form. Also the isValid() method is needed to repopulate $form with posted values.
 	        if (!$form->isValid($_POST)) {
 	            $this->view->form = $form;
-	            return $this->render('form');
+	            return $this->render('assignpersonnel');
 	        }
 	        
 	        // Loop through form result and update database
