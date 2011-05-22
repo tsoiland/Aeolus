@@ -25,7 +25,8 @@ class IncidentController extends Zend_Controller_Action
         	$title = $model->getTitle();
         	$latitude = ($model->getLatitude()) ? $model->getLatitude(): 'null';
         	$longitude = ($model->getLongitude()) ? $model->getLongitude(): 'null';
-        	print "addMarker('$title',$latitude, $longitude);\n" ;   
+        	$html = '\'<a href="view/id/' . $model->getId() . '">' . $model->getTitle() . '</a>\'';
+        	print "addMarker('$title',$latitude, $longitude, false, $html);\n" ;   
     	}
     	print '}</script>';
     	
@@ -118,7 +119,7 @@ class IncidentController extends Zend_Controller_Action
         $longitude = ($model->getLongitude()) ? $model->getLongitude(): 'null';
         print "'<script type='text/javascript'>
         		function addMarkerForEdit() {
-        			addMarker('$title',$latitude, $longitude, true);\n
+        			return addMarker('$title',$latitude, $longitude, true);\n
     			}
     		   </script>";
         // Tell the javascript initialization method to show the edit map with the movable marker.

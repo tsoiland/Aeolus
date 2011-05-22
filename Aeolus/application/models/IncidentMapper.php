@@ -127,7 +127,7 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
     {
     	$sql = "SELECT * FROM incidents WHERE verified = 1";
     	$rows = $this->getDbTable()->getAdapter()->fetchAll($sql);
-    	print $rows;
+    	
     	$models = array();
     	foreach($rows as $row) {
     		$models[] = $this->find($row['id']);

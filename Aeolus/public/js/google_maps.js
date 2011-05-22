@@ -1,5 +1,5 @@
 var map;
-
+var marker;
 
 function initialize(arg) {
 	if (arg!='') {
@@ -18,7 +18,7 @@ function initialize(arg) {
 		addMarkers();
 	} else if (arg=='add') {
 		// Set up movable marker.
-		addMarker('test', null, null, true);
+		var marker = addMarker('test', null, null, true, '');
 		google.maps.event.addListener(map, 'click', function(event) {
 			document.getElementById("longitude").value = event.latLng.lng().toFixed(6);
 			document.getElementById("latitude").value = event.latLng.lat().toFixed(6);
@@ -46,13 +46,23 @@ function initialize(arg) {
 	}
 }
 
-function addMarker(title, latitude, longitude, draggable) {
+function addMarker(title, latitude, longitude, draggable, html) {
 	var latlng = new google.maps.LatLng(latitude, longitude);
-	return marker = new google.maps.Marker({
+	var marker = new google.maps.Marker({
 	      position: latlng, 
 	      map: map, 
 	      title: title,
 	      draggable: draggable,
 	      aiseOnDrag: false
-	  });
+	});
+	if(html != '') {
+		var infowindow = new google.maps.InfoWindow({
+		    content: html
+		});
+	
+		google.maps.event.addListener(marker, 'click', function() {
+		  infowindow.open(map,marker);
+		});
+	}
+	return marker;
 }  
