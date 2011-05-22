@@ -40,6 +40,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$acl->deny('guest');
 		$acl->allow('guest', 'index');
 		$acl->allow('guest', 'auth');
+		$acl->allow('guest', 'incident', 'rss');
 		
 		$acl->deny('public_officials');
 		$acl->allow('public_officials', 'index');

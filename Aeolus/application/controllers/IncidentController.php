@@ -46,11 +46,12 @@ class IncidentController extends Zend_Controller_Action
 	            $this->view->form = $form;
 	            return $this->render('form');
 	        }
+	        // Get the model.
+	        $model = new Application_Model_Incident();
 	        
-	        // Construct and populate the model. getValues() returns an array and we need an object.
-	        // Therefore we simply cast it. The @ supresses notices that result from this.
-	        $values = (object) $form->getValues();
-	        $model = @Application_Model_IncidentMapper::createAndPopulateModel($values);
+	        // Put values from form in the model.
+	        $values = $form->getValues();
+	        $model->setValuesFromArray($values);
 	        $model->setVerified(false);
 	        
 	        // Save the model.
@@ -82,19 +83,21 @@ class IncidentController extends Zend_Controller_Action
         	// If validation failed, redisplay form. Also the isValid() method is needed to repopulate $form with posted values.
 	        if (!$form->isValid($_POST)) {
 	            $this->view->form = $form;
-	            return $this->render('form');
+	            return $this->render('edit');
 	        }
 	        
-	        // Construct and populate the model.
-	        $values = $form->getValues();
-	        $values['id'] = $id;
-	 print "dd<pre>".print_r($values,1)."</pre>";
-	        $model = Application_Model_IncidentMapper::createAndPopulateModelFromArray($values);
-//die("<pre>".print_r($model,1)."</pre>");
-	        // Save the model.
+	        // Get the model.
 	        $mapper = new Application_Model_IncidentMapper();
+	        $model = $mapper->find($id);
+	        
+	        // Put values from form in the model.
+	        $values = $form->getValues();
+	        $model->setValuesFromArray($values);
+	        
+	        // Save the model.
 	        $mapper->save($model);
 	        
+	        // Flash and redirect.
 	        $this->_helper->flashMessenger()->addMessage('Details Saved');
             $this->_helper->redirector->gotoUrlAndExit('incident/view/id/' . $id);
 	        
@@ -105,9 +108,9 @@ class IncidentController extends Zend_Controller_Action
 		$model = $mapper->find($id);
 		
 		// Prepare for and enter into form.
-		$data_array = Application_Model_IncidentMapper::createDataArray($model);
+		$model_array = Application_Model_IncidentMapper::createArrayFromModel($model);
 		$this->view->form = $this->getForm();
-		$this->view->form->populate($data_array);
+		$this->view->form->populate($model_array);
 		
 		// Print javascript to add markers to the map.
         $title = $model->getTitle();
@@ -152,7 +155,7 @@ class IncidentController extends Zend_Controller_Action
 	 */
     public function verifyAction()
     {
-    	$this->setVerification(TRUE);
+    	$this->setVerification(1);
     }
 
     /*
@@ -221,7 +224,7 @@ class IncidentController extends Zend_Controller_Action
 	        
 	        // Flash and redirect
 	        $this->_helper->flashMessenger()->addMessage('Personnel assignment saved.');
-            $this->_helper->redirector->gotoUrlAndExit('incident/index');
+            $this->_helper->redirector->gotoUrlAndExit("incident/view/id/$incident_id");
      	}
         
         // Fetch all users

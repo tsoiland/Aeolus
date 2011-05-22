@@ -2,70 +2,85 @@
 
 class Application_Model_User
 {
-	protected $_id;
-	protected $_username;
-	protected $_role;
-	protected $_clock_in_time;
-	protected $_clock_out_time;
-	protected $_password;
-	protected $_salt;
-	protected $_realname;
-	protected $_phone_nr;
-	protected $_location;
-	
+	protected $id;
+	protected $username;
+	protected $role;
+	protected $clock_in_time;
+	protected $clock_out_time;
+	protected $password;
+	protected $salt;
+	protected $realname;
+	protected $phone_nr;
+	protected $location;
+
+	public function __construct()
+	{
+		$config_params = Zend_Registry::get('config_module');
+		$this->salt = $config_params['dfg']['salt'];
+	}
+	public function setValuesFromArray($array)
+	{
+		foreach($array as $key => $value) {
+			if($key == 'password')
+				$this->setPassword($value);
+			else
+				$this->$key = $value;
+		}
+	}
+    
 	public function getId() 
 	{
-		return $this->_id;
+		return $this->id;
 	}
 	public function setId($value) 
 	{
-		$this->_id = $value;
+		$this->id = $value;
 	}
 	public function getUsername() 
 	{
-		return $this->_username;
+		return $this->username;
 	}
 	public function setUsername($value) 
 	{
-		$this->_username = $value;
+		$this->username = $value;
 	}
 	public function getRole() 
 	{
-		return $this->_role;
+		return $this->role;
 	}
 	public function setRole($value) 
 	{
-		$this->_role = $value;
+		$this->role = $value;
 	}
 	public function getClockInTime()
 	{
-		return $this->_clock_in_time;
+		return $this->clock_in_time;
 	}
 	public function setClockInTime($value) 
 	{
-		$this->_clock_in_time = $value;
+		$this->clock_in_time = $value;
 	}
 	public function getClockOutTime()
 	{
-		return $this->_clock_out_time;
+		return $this->clock_out_time;
 	}
 	public function setClockOutTime($value) 
 	{
-		$this->_clock_out_time = $value;
+		$this->clock_out_time = $value;
 	}
 	public function clockIn() 
 	{
-		$this->_clock_in_time = time();
+		$this->clock_in_time = time();
 	}
 	
 	public function clockOut() 
 	{
-		$this->_clock_out_time = time();
+		$this->clock_out_time = time();
 	}
 	
 	public function isClockedIn() 
 	{
-		if ($this->_clock_out_time < $this->_clock_in_time)	{
+		if ($this->clock_out_time < $this->clock_in_time)	{
 			return true;
 		}
 			
@@ -74,7 +89,7 @@ class Application_Model_User
 	
 	public function getClockedInDuration() 
 	{
-		return (time() - $this->_clock_in_time)/3600;
+		return (time() - $this->clock_in_time)/3600;
 	}
 	
 	public function getExhaustionStatus() 
@@ -86,43 +101,41 @@ class Application_Model_User
 	}
 	public function getSalt() 
 	{
-		return $this->_salt;
+		return $this->salt;
 	}
 	public function setSalt($value)
 	{
-		$this->_salt = $value;
+		$this->salt = $value;
 	}  
 	public function setPassword($value) 
 	{
-		$config_params = Zend_Registry::get('config_module');
-		$salt = $config_params['dfg']['salt'];
-		$this->_password = sha1($value.$salt);
+		$this->password = sha1($value.$this->salt);
 	}
 	public function getHashedPassword()
 	{
-		return $this->_password;
+		return $this->password;
 	}
 	public function getRealName()
 	{
-		return $this->_realname;
+		return $this->realname;
 	}
 	public function setRealName($value) {
-		$this->_realname = $value;
+		$this->realname = $value;
 	}
 	public function getPhoneNr()
 	{
-		return $this->_phone_nr;	
+		return $this->phone_nr;	
 	}
 	public function setPhoneNr($value)
 	{
-		$this->_phone_nr = $value;
+		$this->phone_nr = $value;
 	}
 	public function getLocation()
 	{
-		return $this->_location;	
+		return $this->location;	
 	}
 	public function setLocation($value)
 	{
-		$this->_location = $value;
+		$this->location = $value;
 	}
 }

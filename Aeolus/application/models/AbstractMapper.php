@@ -3,20 +3,25 @@ abstract class Application_Model_AbstractMapper
 {
 	protected $_dbTable;
  
-    public function setDbTable($dbTable)
+	public abstract function createModelFromTableRow($row);
+	public abstract function createArrayFromModel($model);
+	
+	public function __construct()
+	{
+		$dbTableClassName = "Application_Model_DbTable_$this->_dbTableName";
+		$this->_dbTable = new $dbTableClassName();
+	}
+    public function getDbTable()
     {
-        if (is_string($dbTable)) {
-            $dbTable = new $dbTable();
-        }
-        if (!$dbTable instanceof Zend_Db_Table_Abstract) {
-            throw new Exception('Invalid table data gateway provided');
-        }
-        $this->_dbTable = $dbTable;
-        return $this;
+        return $this->_dbTable;
     }
     
+    /*
+     * Save one, or an array of, models.
+     */
  	public function save($model)
  	{
+ 		// If the model is in fact an array of models, loop through them and call this method for each of them.
  		if(is_array($model)) {
  			foreach ($model as $m) {
  				$this->save($m);
@@ -24,7 +29,7 @@ abstract class Application_Model_AbstractMapper
  			return;
  		}
  		
-    	$data = $this->createDataArray($model);
+    	$data = $this->createArrayFromModel($model);
     	
     	if (null === ($id = $model->getId())) {
             unset($data['id']);
@@ -33,15 +38,10 @@ abstract class Application_Model_AbstractMapper
             $this->getDbTable()->update($data, array('id = ?' => $id));
         }
     }
-    
-    public function getDbTable()
-    {
-        if (null === $this->_dbTable) {
-            $this->setDbTable("Application_Model_DbTable_$this->_dbTableName");
-        }
-        return $this->_dbTable;
-    }
 	
+    /*
+     * Get one model from the db, based on id.
+     */
     public function find($id) 
     {
     	$result = $this->getDbTable()->find($id);
@@ -50,19 +50,26 @@ abstract class Application_Model_AbstractMapper
         }
         
         $row = $result->current();
-        $model = $this->createAndPopulateModel($row);
+        $model = $this->createModelFromTableRow($row);
         return $model;
     }
     
+    /*
+     *  Get all models.
+     */
     public function fetchAll() 
     {
     	$resultSet = $this->getDbTable()->fetchAll();
         $models = array();
         foreach ($resultSet as $row) {
-            $models[] = $this->createAndPopulateModel($row);
+            $models[] = $this->createModelFromTableRow($row);
         }
         return $models;
     }
+    
+    /*
+     *  Delete a model based on id.
+     */
     public function delete($id)
     {
     	if ($id != null) {

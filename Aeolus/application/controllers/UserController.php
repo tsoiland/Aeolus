@@ -25,15 +25,18 @@ class UserController extends Zend_Controller_Action
 	            return $this->render('form');
 	        }
 	        
-	        // Construct and populate the model. getValues() returns an array and we need an object.
-	        // Therefore we simply cast it. The @ supresses notices that result from this.
-	        $values = (object) $form->getValues();
-	        $model = @Application_Model_UserMapper::createAndPopulateModel($values);
+	        // Get the model.
+	        $model = new Application_Model_User();
 	        
+	        // Put values from form in the model.
+	        $values = $form->getValues();
+	        $model->setValuesFromArray($values);
+	       
 	        // Save the model.
 	        $mapper = new Application_Model_UserMapper();
 	        $mapper->save($model);
 	        
+	        // Flash and redirect
 	        $this->_helper->flashMessenger()->addMessage('Details Saved');
             $this->_helper->redirector->gotoUrlAndExit('user/index');
      	}
@@ -58,14 +61,18 @@ class UserController extends Zend_Controller_Action
 	            return $this->render('edit');
 	        }
 	        
-	        $values = $form->getValues();
-	        $values['id'] = $id;
-	        $model = Application_Model_UserMapper::createAndPopulateModelFromArray($values);
-
-	        // Save the model.
+	        // Get the model.
 	        $mapper = new Application_Model_UserMapper();
+	        $model = $mapper->find($id);
+	        
+	        // Put values from form in the model.
+	        $values = $form->getValues();
+	        $model->setValuesFromArray($values);
+	       	
+	        // Save the model.
 	        $mapper->save($model);
 	        
+	        // Flash and redirect
 	        $this->_helper->flashMessenger()->addMessage('Details Saved');
             $this->_helper->redirector->gotoUrlAndExit('user/view/id/' . $id);
 	        
@@ -74,12 +81,12 @@ class UserController extends Zend_Controller_Action
 		// Fetch data for form
 		$mapper = new Application_Model_UserMapper();
 		$model = $mapper->find($id);
-		$data_array = Application_Model_UserMapper::createDataArray($model);
+		$model_array = Application_Model_UserMapper::createArrayFromModel($model);
 		
 		// Create, populate and remove password from, form
 		$this->view->form = $this->getForm();
-		unset($data_array['password']);
-		$this->view->form->populate($data_array);
+		unset($model_array['password']);
+		$this->view->form->populate($model_array);
 		
 		// Signal to javascript component about which map to display
         $this->view->jsInitParameters = "'edit'";

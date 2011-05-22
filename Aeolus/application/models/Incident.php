@@ -2,151 +2,158 @@
 
 class Application_Model_Incident
 {
-	protected $_title;
-	protected $_description;
-	protected $_id;
-	protected $_latitude;
-	protected $_longitude;
-	protected $_verified;
-	protected $_twitterId;
-	protected $_sensitiveDescription;
-	protected $_verify_time;
-	protected $_first_assignment_time;
-	protected $_close_time;
-	protected $_status;
-	protected $_STATUSES = array(0 => 'Open', 1 => 'Closed');
-	
-	public function __set($name, $value) 
+	protected $title;
+	protected $description;
+	protected $id;
+	protected $latitude;
+	protected $longitude;
+	protected $verified;
+	protected $twitterId;
+	protected $sensitive_description;
+	protected $verify_time;
+	protected $first_assignment_time;
+	protected $close_time;
+	protected $status = 0;
+	protected $STATUSES = array(0 => 'Open', 1 => 'Closed');
+
+	public function setValuesFromArray($array)
 	{
-		
+		foreach($array as $key => $value) {
+			$this->$key = $value;
+		}
 	}
-	public function __get($name) 
-	{
-		
-	}
+    
 	public function getTitle() 
 	{
-		return $this->_title;
+		return $this->title;
 	}
 	public function setTitle($value) 
 	{
-		$this->_title = $value;
+		$this->title = $value;
 	}
 	public function getDescription() 
 	{
-		return $this->_description;
+		return $this->description;
 	}
 	public function setDescription($value) 
 	{
-		$this->_description = $value;
+		$this->description = $value;
 	}
 	public function getId() 
 	{
-		return $this->_id;
+		return $this->id;
 	}
 	public function setId($value) 
 	{
-		$this->_id = $value;
+		$this->id = $value;
 	}
 	public function getLatitude() 
 	{
-		return $this->_latitude;
+		return $this->latitude;
 	}
 	public function setLatitude($value) 
 	{
-		$this->_latitude = $value;
+		$this->latitude = $value;
 	}
 	public function getLongitude() 
 	{
-		return $this->_longitude;
+		return $this->longitude;
 	}
 	public function setLongitude($value) 
 	{
-		$this->_longitude = $value;
+		$this->longitude = $value;
 	}
 	public function getVerified() 
 	{
-		return $this->_verified;
+		return $this->verified;
 	}
 	public function setVerified($value) 
 	{
-		$this->_verified = $value;
-		if($value) 
-			$this->setVerifyTime(time());
-		else if($value == null)
-			print "value is null";
-		else
-			$this->setVerifyTime(0);
-		//die(print_r($this,1));
+		$oldvalue = $this->verified;
+		$this->verified = $value;
+		
+		// If the verification status changed, we want to update the verification date, but 
+		// this method isn't just called when the status changes. It is also called when a model
+		// is getting populated from the db. In the later case $oldvalue won't be empty, so we use 
+		// that as a check.
+		if($oldvalue === '0' || $oldvalue === '1') {
+			if(!$oldvalue && $value) {
+				// Changed from false to true.
+				$this->setVerifyTime(time());
+			} else if($oldvalue && !$value) {
+				// Changed from true to false.
+				$this->setVerifyTime(0);
+			}
+		} 
 	}
 	public function setTwitterId($value)
 	{
-		$this->_twitterId = $value;
+		$this->twitterId = $value;
 	}
 	public function getTwitterId()
 	{
-		return $this->_twitterId;
+		return $this->twitterId;
 	}
 	public function setSensitiveDescription($value)
 	{
-		$this->_sensitiveDescription = $value;
+		$this->sensitive_description = $value;
 	}
 	public function getSensitiveDescription()
 	{
-		return ($this->_sensitiveDescription) ? $this->_sensitiveDescription : 'None';
+		return ($this->sensitive_description) ? $this->sensitive_description : 'None';
 	}
 	public function setVerifyTime($value)
 	{
-		$this->_verify_time = $value;
+		$this->verify_time = $value;
 	}
 	public function getVerifyTime()
 	{
-		return $this->_verify_time;
+		return $this->verify_time;
 	}
 	public function getVerifyTimeDisplay()
 	{
-		return $this->displayTime($this->_verify_time);
+		return $this->displayTime($this->verify_time);
 	}
 	public function setFirstAssignmentTime($value)
 	{
-		$this->_first_assignment_time = $value;
+		$this->first_assignment_time = $value;
 	}
 	public function getFirstAssignmentTime()
 	{	
-		return $this->_first_assignment_time;
+		return $this->first_assignment_time;
 	}
 	public function getFirstAssignmentTimeDisplay()
 	{	
-		return $this->displayTime($this->_first_assignment_time);
+		return $this->displayTime($this->first_assignment_time);
 	}
 	public function setCloseTime($value)
 	{
-		$this->_close_time = $value;
+		$this->close_time = $value;
 	}
 	public function getCloseTime()
 	{
-		return $this->_close_time;
+		return $this->close_time;
 	}
 	public function getCloseTimeDisplay()
 	{
-		return $this->displayTime($this->_close_time);
+		return $this->displayTime($this->close_time);
 	}
 	public function setStatus($value)
 	{
-		$this->_status = $value;
+		$this->status = $value;
 	}
 	public function getStatusId()
 	{
-		return $this->_status;
+		return $this->status;
 	}
 	public function getStatusDisplay()
 	{
-		return $this->_STATUSES[$this->_status];
+		return $this->STATUSES[$this->status];
 	}
 	
 	private function displayTime($time) {
 		if($time) {
-			return date('g:h:s a d.m.Y', $time);
+			return date('g:i:s a d.m.Y', $time);
 		} else {
 			return 'None';
 		}
