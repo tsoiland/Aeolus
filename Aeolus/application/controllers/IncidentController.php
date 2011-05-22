@@ -8,7 +8,7 @@ class IncidentController extends Zend_Controller_Action
     public function indexAction()
     {
     	$mapper = new Application_Model_IncidentMapper();
-        $this->view->models = $mapper->fetchAll();
+        $this->view->models = $mapper->fetchAll('status != 1');
     }
     
     /*
@@ -17,7 +17,7 @@ class IncidentController extends Zend_Controller_Action
     public function indexmapAction()
     {
     	$mapper = new Application_Model_IncidentMapper();
-        $this->view->models = $mapper->fetchAll();
+        $this->view->models = $mapper->fetchAll('status != 1');
         
         // Print javascript to add markers to the map.
         print '<script type="text/javascript">function addMarkers() {';
@@ -54,6 +54,7 @@ class IncidentController extends Zend_Controller_Action
 	        $values = $form->getValues();
 	        $model->setValuesFromArray($values);
 	        $model->setVerified(false);
+	        $model->setCreationTime(time());
 	        
 	        // Save the model.
 	        $mapper = new Application_Model_IncidentMapper();
@@ -257,6 +258,9 @@ class IncidentController extends Zend_Controller_Action
     	$mapper = new Application_Model_IncidentMapper();
     	$twitter->eliminateDuplicates($incidents, $mapper);
     	$this->view->number_of_unique_results = count($incidents);
+    	
+    	foreach($incidents as $incident)
+	        $incident->setCreationTime(time());
     	
     	// Save the new incidents in the database
     	$mapper->save($incidents);

@@ -18,6 +18,7 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
 		$model->setVerified($row->verified);
 		$model->setTwitterId($row->twitter_id);
 		$model->setSensitiveDescription($row->sensitive_description);
+		$model->setCreationTime($row->creation_time);
 		$model->setVerifyTime($row->verify_time);
 		$model->setFirstAssignmentTime($row->first_assignment_time);
 		$model->setCloseTime($row->close_time);
@@ -34,6 +35,7 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
     		'longitude' => $model->getLongitude(),
     		'twitter_id' => $model->getTwitterId(),
     	 	'sensitive_description' => $model->getSensitiveDescription(),
+			'creation_time' => $model->getCreationTime(),
     	 	'verify_time' => $model->getVerifyTime(),
     	 	'first_assignment_time' => $model->getFirstAssignmentTime(),
 			'close_time' => $model->getCloseTime(),
@@ -53,6 +55,7 @@ class Application_Model_IncidentMapper extends Application_Model_AbstractMapper
 				FROM incidents i
 				LEFT JOIN user_incident ui ON ui.incident_id = i.id
 				WHERE ui.user_id =$id
+				AND i.status != 1
 				LIMIT 0 , 30";
     	$rows = $this->getDbTable()->getAdapter()->fetchAll($sql);
     	$models = array();

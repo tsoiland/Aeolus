@@ -1,0 +1,19 @@
+<?php $report = $this->report; ?>
+
+
+Average duration: <?php print $report->average_duration; ?><br />
+Shortest duration: <?php print $report->minimum_duration; ?><br />
+Longest duration: <?php print $report->maximum_duration; ?><br />
+Duration standard deviation: <?php print $report->duration_sd; ?><br />
+Number of open incidents: <?php print $report->number_of_open_incidents; ?><br />
+Number of closed incidents: <?php print $report->number_of_closed_incidents; ?><br />
+Number of assignments pr person:<br />
+<?php foreach ($report->incidents_pr_personnel as $row):?>
+	<?php print $row['personnel_count']; ?> people have <?php print $row['assignment_count']; ?> assigned incidents.
+	<br />
+<?php endforeach;?>
+<a href="<?php echo $this->url(
+            array('controller'=>'report', 'action'=>'closedincidents',
+            'default',
+            true)) ?>">Closed Incidents</a>
+<?php //print "<pre>".print_r($this->report,1)."</pre>";?>

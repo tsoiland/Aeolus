@@ -1,0 +1,15 @@
+<h1>Closed Incidents</h1>
+<table id="index">
+	<tr><td>Id</td><td>Title</td></tr>
+	<?php foreach ($this->models as $model):?>
+		<tr><td><?php echo $this->escape($model->getId())?></td>
+		<td><a href="<?php echo $this->url(
+            array('controller'=>'incident', 'action'=>'view', 'id' => $model->getId()),
+            'default',
+            true) ?>"><?php echo $this->escape($model->getTitle())?></a></td>
+        <td><a href="<?php echo $this->url(
+            array('controller'=>'incident', 'action'=>'delete', 'id' => $model->getId()),
+            'default',
+            true) ?>">Delete</a></td></tr>
+	<?php endforeach ?>
+</table>

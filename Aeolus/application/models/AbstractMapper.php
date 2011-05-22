@@ -57,9 +57,9 @@ abstract class Application_Model_AbstractMapper
     /*
      *  Get all models.
      */
-    public function fetchAll() 
+    public function fetchAll($sql = null) 
     {
-    	$resultSet = $this->getDbTable()->fetchAll();
+    	$resultSet = $this->getDbTable()->fetchAll($sql);
         $models = array();
         foreach ($resultSet as $row) {
             $models[] = $this->createModelFromTableRow($row);

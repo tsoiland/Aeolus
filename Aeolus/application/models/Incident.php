@@ -10,6 +10,7 @@ class Application_Model_Incident
 	protected $verified;
 	protected $twitterId;
 	protected $sensitive_description;
+	protected $creation_time;
 	protected $verify_time;
 	protected $first_assignment_time;
 	protected $close_time;
@@ -104,6 +105,18 @@ class Application_Model_Incident
 	public function getSensitiveDescription()
 	{
 		return ($this->sensitive_description) ? $this->sensitive_description : 'None';
+	}
+	public function setCreationTime($value)
+	{
+		$this->creation_time = $value;
+	}
+	public function getCreationTime()
+	{
+		return $this->creation_time;
+	}
+	public function getCreationTimeDisplay()
+	{
+		return $this->displayTime($this->creation_time);
 	}
 	public function setVerifyTime($value)
 	{
