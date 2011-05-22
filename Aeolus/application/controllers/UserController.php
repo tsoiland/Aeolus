@@ -126,14 +126,21 @@ class UserController extends Zend_Controller_Action
     	// Get the user
     	$user = $this->getLoggedInUser();
     	
-    	// Update and save
-    	$user->clockIn();
-    	$mapper = new Application_Model_UserMapper();
-    	$mapper->save($user);
+    	$minimumrestperiod = 0.01;
+    	
+    	// Check rest period
+    	if($user->getClockedOutDuration() >= $minimumrestperiod) {
+	    	// Update and save
+	    	$user->clockIn();
+	    	$mapper = new Application_Model_UserMapper();
+	    	$mapper->save($user);
 
-    	// Flash and redirect
-    	$this->_helper->flashMessenger()->addMessage('You were successfully clocked in.');
-        $this->_helper->redirector->gotoUrlAndExit('user/myhome');
+	    	$this->_helper->flashMessenger()->addMessage('You were successfully clocked in.');
+    	} else {
+    		$this->_helper->flashMessenger()->addMessage("You need at least $minimumrestperiod hours of rest before you can clock back in.");
+    	}
+    	
+    	$this->_helper->redirector->gotoUrlAndExit('user/myhome');
     }
     
     /*

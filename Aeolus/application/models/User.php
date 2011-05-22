@@ -89,15 +89,22 @@ class Application_Model_User
 	
 	public function getClockedInDuration() 
 	{
-		return (time() - $this->clock_in_time)/3600;
+		return round((time() - $this->clock_in_time)/3600, 2);
+	}
+	public function getClockedOutDuration() 
+	{
+		return round((time() - $this->clock_out_time)/3600, 2);
 	}
 	
 	public function getExhaustionStatus() 
 	{
+		if($this->clock_in_time == 0)
+			return "Never clocked in.";
 		if ($this->isClockedIn()) {
 			return "Clocked in for " . $this->getClockedInDuration() . " hours";
+		} else {
+			return "Clocked out for " . $this->getClockedOutDuration() . " hours";
 		}
-		return 'Not clocked in';
 	}
 	public function getSalt() 
 	{
