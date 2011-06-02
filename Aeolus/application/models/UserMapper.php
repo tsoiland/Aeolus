@@ -12,7 +12,6 @@ class Application_Model_UserMapper extends Application_Model_AbstractMapper
         $model->setId($row->id);
 	    $model->setUsername($row->username);
 	    $model->setRealName($row->realname);
-	    $model->setPassword($row->password);
 	    $model->setSalt($row->salt);
 	    $model->setRole($row->role);
 	    $model->setPhoneNr($row->phone_nr);
@@ -29,12 +28,15 @@ class Application_Model_UserMapper extends Application_Model_AbstractMapper
             'role' => $model->getRole(),
             'phone_nr' => $model->getPhoneNr(),
             'location' => $model->getLocation(),
- 			'password' => $model->getHashedPassword(),
  			'salt' => $model->getSalt(),
  			'clock_in_time' => $model->getClockInTime(),
  			'clock_out_time' => $model->getClockOutTime()
         );
         
+        $password = $model->getHashedPassword();
+        if(!empty($password))
+        	$array['password'] = $password;
+        	
         return $array;
 	}
 }

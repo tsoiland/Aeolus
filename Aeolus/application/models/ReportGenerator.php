@@ -71,7 +71,6 @@ class Application_Model_ReportGenerator
 				GROUP BY assignment_count";
 		$mapper = new Application_Model_IncidentMapper();
 		$rows = $mapper->getDbTable()->getAdapter()->fetchAll($sql);
-    	//print "<pre>" . print_r($rows,1)."</pre>";
     	$this->report->incidents_pr_personnel = $rows;
 	}
 }
