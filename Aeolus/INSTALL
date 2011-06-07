@@ -1,0 +1,15 @@
+This product depends on the Zend Framework for php and mysql, and is intended to be used
+on the Zend Server Community Edition. 
+
+-Import scripts/scheme.sql into your database and configure 
+application/configs/application.ini with the database details.
+
+-Place the content of this folder in a publicly accessible web folder and point
+your browser or virtual host mechanism to public/index.php
+
+-The default admin user is 'admin' with password 'test'.
+
+For instructions on how to install Zend Server Community Edition refer to 
+http://www.zend.com/en/products/server-ce/. Zend products can also be used on a regular
+apache2/php server as long as it has access to the zend framework, but we consider that
+to be outside this documents scope.
